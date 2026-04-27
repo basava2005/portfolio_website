@@ -141,7 +141,7 @@ export default function Hero() {
             <ArrowDown size={12} /> Scroll to read
           </span>
           <span className="hidden sm:inline">Page 01 of 06</span>
-          <span>basavarajha05@gmail.com</span>
+          <span>Karnataka · India</span>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-scroll";
 
 export default function Topbar() {
   const [time, setTime] = useState("");
@@ -34,13 +35,16 @@ export default function Topbar() {
           <span>Karnataka · IN</span>
           <span>{time || "—:—"}</span>
         </div>
-        <a
-          href="mailto:basavarajha05@gmail.com"
-          className="text-orange hover:text-cream transition-colors"
-          data-testid="link-topbar-email"
+        <Link
+          to="contact"
+          smooth
+          duration={800}
+          offset={-50}
+          className="text-orange hover:text-cream transition-colors cursor-pointer"
+          data-testid="link-topbar-contact"
         >
-          ↗ Hire
-        </a>
+          ↗ Contact
+        </Link>
       </div>
     </div>
   );
