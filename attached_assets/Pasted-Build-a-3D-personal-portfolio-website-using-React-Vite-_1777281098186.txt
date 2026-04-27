@@ -1,0 +1,78 @@
+Build a 3D personal portfolio website using React (Vite + React). Here are the full details:
+
+SETUP:
+
+Vite + React
+Install: three, @react-three/fiber, @react-three/drei, framer-motion, react-scroll
+Single page app, component-based structure
+
+
+DESIGN STYLE:
+
+Dark theme (#050508 background)
+Cinematic loader with animated progress bar
+Custom cursor (dot + ring follower)
+Three.js 3D floating particles background using @react-three/fiber and @react-three/drei
+Framer Motion scroll animations (fade up on reveal)
+Fonts: Bebas Neue + Syne + DM Mono via Google Fonts in index.html
+Accent colors: #7cffd4, #ff6b6b, #a78bfa
+Inspired by: https://mustafahaidari.dev/
+
+
+COMPONENTS TO BUILD:
+Loader.jsx — Full screen loader, animated name "BASAVARAJ H A" in Bebas Neue, progress bar fills over 2.5s then fades out
+Cursor.jsx — Custom cursor dot + follower ring, follows mouse with slight lag, changes size on hover over links
+Navbar.jsx — Fixed top, logo "BHA" in accent green, links: About, Experience, Projects, Achievements, Contact, "Hire Me" CTA button. Blur + border on scroll.
+Hero.jsx — Pulsing green dot "Available for Opportunities". Giant name with gradient text. Subtitle: "Full Stack Developer & AI Enthusiast". Short bio. Two buttons: "View Work" + "Get In Touch". Animated scroll line at bottom.
+ParticlesBackground.jsx — @react-three/fiber Canvas fixed to background. Floating geometric shapes (icosahedron + torus wireframes) slowly rotating. Mouse parallax effect. Subtle floating particles.
+About.jsx — Two column layout. Left: bio paragraphs. Right: skill tags grid. Skills list:
+Python, JavaScript, React.js, Node.js, Flask, FastAPI, PostgreSQL, MongoDB, OpenCV, LLM Integration, LoRA Fine-tuning, AUTOSAR, Renode, Git, Power BI, Java, C
+Experience.jsx — Bordered list timeline style:
+
+Software Developer Intern @ Luxoft | May 2025 – Present | Remote
+
+Built React UI + Python Flask APIs for full-stack web apps
+Developed AUTOSAR BSWM Rule Visualizer for JSON-based logic
+Built LLM chatbot using Mistral via LM Studio
+Used Renode for embedded system simulation
+Engineered AUTOSAR Analysis & Simulation Suite
+
+
+
+Projects.jsx — Card grid, each card has large faded number, title, description, tech tags, hover glow border effect:
+
+Satyagraha AI Platform — AI legal platform for agreements, FIR analysis, contract risk assessment. RBAC auth, PDF generation. React.js · Node.js · Neon PostgreSQL · LLM/AI
+SkyForger Technologies Website — Production startup site, internship management, 50+ users. React.js · Node.js · Neon PostgreSQL
+Exam Guardian System — AI exam monitoring, face detection, SHA-256 tamper-proof logs. React.js · Node.js · Express.js · SHA-256
+Face Recognition Attendance — Real-time face recognition, PostgreSQL storage, CSV export, timetable-based auto-marking. Python · OpenCV · NumPy · PostgreSQL
+
+Achievements.jsx — Card grid:
+
+🏆 Top 10 Finalist – Hackathon @ JNNCE Shivamogga (Mar 2026)
+🌐 Winter of Code Social Contributor (Jan 2026) – open source
+
+Certifications.jsx — Two cards:
+
+Python Programming Course – Dhaapps (May 2024)
+Diploma in Computer Financial Accounting – KEONICS (Feb 2022)
+
+Contact.jsx — Centered. Large clickable email: basavarajha05@gmail.com. Social links: LinkedIn, GitHub, Phone (+919353198281). Simple contact CTA.
+Footer.jsx — "© 2026 Basavaraj H A" left. "Designed & Built by Basavaraj" right.
+
+PERSONAL INFO:
+
+Name: Basavaraj H A
+Email: basavarajha05@gmail.com
+Phone: +91 9353198281
+Location: Yattinahalli, Hirekerur, Haveri, Karnataka
+College: GM Institute of Technology, VTU — B.E. ISE (Sep 2023 – Present)
+LinkedIn & GitHub links in resume
+
+
+EXTRA DETAILS:
+
+Use Framer Motion useInView for scroll reveal on every section
+Floating badge bottom-right: green dot + "Available for Opportunities"
+Mobile responsive with hamburger menu
+Smooth scroll between sections
+All animations should feel premium and cinematic, not basic
