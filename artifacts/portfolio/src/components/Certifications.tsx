@@ -1,57 +1,62 @@
-import Reveal from "./Reveal";
+import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
-import { ScrollText } from "lucide-react";
 
 const certs = [
-  {
-    title: "Python Programming Course",
-    issuer: "Dhaapps",
-    date: "May 2024",
-  },
-  {
-    title: "Diploma in Computer Financial Accounting",
-    issuer: "KEONICS",
-    date: "Feb 2022",
-  },
+  { title: "Full Stack Web Development", issuer: "Online Bootcamp", year: "2024" },
+  { title: "Python for Data Science", issuer: "IBM / Coursera", year: "2023" },
+  { title: "AI & Machine Learning Foundations", issuer: "Google", year: "2024" },
+  { title: "AUTOSAR Fundamentals", issuer: "Industry Training", year: "2025" },
 ];
 
 export default function Certifications() {
   return (
     <section
       id="certifications"
-      className="relative px-6 sm:px-10 py-28 sm:py-40"
-      data-testid="section-certifications"
+      className="relative bg-cream lg:pl-16 xl:pl-20 py-24 sm:py-32"
+      data-testid="certifications-root"
     >
-      <div className="mx-auto max-w-7xl">
-        <SectionHeader index="05" kicker="Credentials" title="Certifications." />
+      <div className="px-4 sm:px-8 lg:px-12">
+        <SectionHeader
+          number="05"
+          kicker="Credentials"
+          title={"Certifications"}
+          subtitle="Receipts, in case you wanted to see them."
+        />
 
-        <div className="grid sm:grid-cols-2 gap-5 sm:gap-7">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7 }}
+          className="border border-ink mt-12 shadow-brutal-orange"
+        >
+          <div className="bg-ink text-cream grid grid-cols-12 px-5 py-3 font-mono text-[10px] uppercase tracking-[0.3em]">
+            <div className="col-span-1">№</div>
+            <div className="col-span-7 sm:col-span-7">Title</div>
+            <div className="col-span-3 sm:col-span-3">Issuer</div>
+            <div className="col-span-1 text-right">Yr</div>
+          </div>
           {certs.map((c, i) => (
-            <Reveal key={i} delay={i * 0.08}>
-              <article
-                className="rounded-2xl border border-white/10 bg-white/[0.02] p-7 sm:p-9 backdrop-blur-sm hover:border-[#a78bfa]/30 transition-all"
-                data-testid={`card-cert-${i}`}
-              >
-                <div className="flex items-start gap-5">
-                  <div className="flex-shrink-0 h-14 w-14 rounded-xl border border-white/10 bg-black/40 grid place-items-center text-[#a78bfa]">
-                    <ScrollText size={22} />
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#a78bfa]">
-                      {c.date}
-                    </div>
-                    <h3 className="font-display text-2xl sm:text-3xl text-white leading-tight">
-                      {c.title}
-                    </h3>
-                    <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/50">
-                      {c.issuer}
-                    </div>
-                  </div>
-                </div>
-              </article>
-            </Reveal>
+            <div
+              key={c.title}
+              className="grid grid-cols-12 px-5 py-5 border-t border-ink/15 items-baseline hover:bg-ink hover:text-cream transition-colors group"
+              data-testid={`cert-${i}`}
+            >
+              <div className="col-span-1 font-mono text-xs text-orange">
+                0{i + 1}
+              </div>
+              <div className="col-span-7 sm:col-span-7 font-display text-xl sm:text-2xl uppercase leading-tight">
+                {c.title}
+              </div>
+              <div className="col-span-3 sm:col-span-3 font-sans text-sm text-ink/70 group-hover:text-cream/80">
+                {c.issuer}
+              </div>
+              <div className="col-span-1 text-right font-mono text-xs">
+                {c.year}
+              </div>
+            </div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

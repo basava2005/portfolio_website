@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
-import Cursor from "@/components/Cursor";
-import Navbar from "@/components/Navbar";
+import Topbar from "@/components/Topbar";
+import Sidebar from "@/components/Sidebar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Experience from "@/components/Experience";
@@ -10,39 +10,43 @@ import Achievements from "@/components/Achievements";
 import Certifications from "@/components/Certifications";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import ParticlesBackground from "@/components/ParticlesBackground";
-import AvailabilityBadge from "@/components/AvailabilityBadge";
+import StatusSticker from "@/components/StatusSticker";
+import Marquee from "@/components/Marquee";
 
 function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    document.documentElement.classList.add("dark");
-    document.body.classList.add("hide-native-cursor");
-    document.body.classList.add("grain");
-    return () => {
-      document.body.classList.remove("hide-native-cursor");
-      document.body.classList.remove("grain");
-    };
+    document.documentElement.classList.remove("dark");
   }, []);
 
   return (
-    <div className="relative min-h-screen text-foreground" data-testid="app-root">
+    <div
+      className="relative min-h-screen bg-cream text-ink font-sans"
+      data-testid="app-root"
+    >
       <Loader onFinish={() => setLoading(false)} />
-      {!loading && <ParticlesBackground />}
-      <Cursor />
-      <Navbar />
-      <main className="relative z-10">
-        <Hero />
-        <About />
-        <Experience />
-        <Projects />
-        <Achievements />
-        <Certifications />
-        <Contact />
-      </main>
-      <Footer />
-      <AvailabilityBadge />
+
+      {!loading && (
+        <>
+          <Topbar />
+          <Sidebar />
+
+          <main className="relative">
+            <Hero />
+            <Marquee />
+            <About />
+            <Experience />
+            <Projects />
+            <Achievements />
+            <Certifications />
+            <Contact />
+          </main>
+
+          <Footer />
+          <StatusSticker />
+        </>
+      )}
     </div>
   );
 }

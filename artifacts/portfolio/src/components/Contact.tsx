@@ -1,97 +1,118 @@
-import Reveal from "./Reveal";
-import { Github, Linkedin, Phone, Mail, ArrowUpRight } from "lucide-react";
-
-const socials = [
-  {
-    label: "LinkedIn",
-    href: "https://www.linkedin.com/in/basavaraj-h-a",
-    icon: Linkedin,
-    handle: "/in/basavaraj-h-a",
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/basavarajha05",
-    icon: Github,
-    handle: "/basavarajha05",
-  },
-  {
-    label: "Phone",
-    href: "tel:+919353198281",
-    icon: Phone,
-    handle: "+91 93531 98281",
-  },
-];
+import { motion } from "framer-motion";
+import { Mail, Phone, Linkedin, Github, ArrowUpRight } from "lucide-react";
 
 export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative px-6 sm:px-10 py-32 sm:py-48"
-      data-testid="section-contact"
+      className="relative bg-orange text-ink lg:pl-16 xl:pl-20 py-24 sm:py-32 overflow-hidden"
+      data-testid="contact-root"
     >
-      <div className="mx-auto max-w-5xl flex flex-col items-center text-center">
-        <Reveal>
-          <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-[#7cffd4] mb-6">
-            06 / Contact
+      <div className="absolute inset-0 grid-lines opacity-40 pointer-events-none" />
+
+      <div className="relative px-4 sm:px-8 lg:px-12">
+        <div className="grid grid-cols-12 gap-4 items-end border-b border-ink pb-6 mb-12">
+          <div className="col-span-3 sm:col-span-2">
+            <span className="font-display text-5xl sm:text-7xl">06</span>
           </div>
-        </Reveal>
+          <div className="col-span-9 sm:col-span-7">
+            <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-ink/70 mb-2">
+              §06 — Last Page
+            </div>
+            <h2 className="font-display text-5xl sm:text-7xl lg:text-8xl uppercase leading-[0.85]">
+              Get in touch
+            </h2>
+          </div>
+          <div className="hidden sm:block sm:col-span-3 font-serif italic text-base">
+            Reply guaranteed within a working day.
+          </div>
+        </div>
 
-        <Reveal delay={0.05}>
-          <p className="font-display text-4xl sm:text-6xl text-white/80 leading-[1.05]">
-            Have an idea, a role, or a wild project?
-          </p>
-        </Reveal>
+        <motion.a
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7 }}
+          href="mailto:basavarajha05@gmail.com"
+          className="block group"
+          data-testid="link-contact-email"
+        >
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/70 mb-3 flex items-center gap-2">
+            <Mail size={12} /> Drop a line
+          </div>
+          <div className="font-display text-[12vw] sm:text-[10vw] lg:text-[8rem] xl:text-[10rem] uppercase leading-[0.85] tracking-tight break-words">
+            basavarajha05
+            <wbr />
+            <span className="text-ink/30">@</span>gmail<span className="text-ink/30">.</span>com
+            <span className="inline-block ml-3 align-middle group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform">
+              ↗
+            </span>
+          </div>
+        </motion.a>
 
-        <Reveal delay={0.15}>
-          <p className="mt-6 max-w-xl text-white/55 text-lg leading-relaxed">
-            I'm available for full-time roles, internships, and freelance
-            collaborations. The fastest way to reach me is email.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.25}>
+        {/* Three card row: phone / linkedin / github */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-0 mt-16 border border-ink"
+        >
           <a
-            href="mailto:basavarajha05@gmail.com"
-            className="group mt-12 inline-flex items-center gap-3 sm:gap-5 font-display text-[10vw] sm:text-7xl lg:text-8xl text-gradient-brand hover:opacity-90 transition-opacity break-all sm:break-normal"
-            data-testid="link-email"
+            href="tel:+919353198281"
+            className="border-b md:border-b-0 md:border-r border-ink p-6 sm:p-8 bg-cream hover:bg-ink hover:text-cream transition-colors group"
+            data-testid="link-contact-phone"
           >
-            <Mail className="h-10 w-10 sm:h-14 sm:w-14 text-[#7cffd4] flex-shrink-0" />
-            basavarajha05@gmail.com
-            <ArrowUpRight
-              size={36}
-              className="hidden sm:block text-[#7cffd4]/70 group-hover:text-[#7cffd4] group-hover:-translate-y-1 group-hover:translate-x-1 transition-all flex-shrink-0"
-            />
+            <div className="flex items-center justify-between mb-6">
+              <Phone size={20} />
+              <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:rotate-45 transition-all" />
+            </div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] mb-2 opacity-70">
+              Phone
+            </div>
+            <div className="font-display text-2xl sm:text-3xl uppercase">
+              +91 93531 98281
+            </div>
           </a>
-        </Reveal>
 
-        <Reveal delay={0.35}>
-          <div className="mt-16 flex flex-wrap justify-center gap-3 sm:gap-4">
-            {socials.map((s) => {
-              const Icon = s.icon;
-              return (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target={s.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noopener noreferrer"
-                  className="group inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.02] px-5 py-3 hover:border-[#7cffd4]/50 hover:bg-[#7cffd4]/[0.05] transition-all"
-                  data-testid={`link-social-${s.label.toLowerCase()}`}
-                >
-                  <Icon size={16} className="text-white/70 group-hover:text-[#7cffd4] transition-colors" />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/70 group-hover:text-white">
-                    {s.handle}
-                  </span>
-                </a>
-              );
-            })}
-          </div>
-        </Reveal>
+          <a
+            href="https://www.linkedin.com/in/basavaraj-h-a"
+            target="_blank"
+            rel="noreferrer"
+            className="border-b md:border-b-0 md:border-r border-ink p-6 sm:p-8 bg-cream hover:bg-ink hover:text-cream transition-colors group"
+            data-testid="link-contact-linkedin"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <Linkedin size={20} />
+              <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:rotate-45 transition-all" />
+            </div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] mb-2 opacity-70">
+              LinkedIn
+            </div>
+            <div className="font-display text-2xl sm:text-3xl uppercase">
+              /in/basavaraj-h-a
+            </div>
+          </a>
 
-        <Reveal delay={0.45}>
-          <div className="mt-20 font-mono text-[10px] uppercase tracking-[0.35em] text-white/30">
-            Yattinahalli · Hirekerur · Haveri · Karnataka · India
-          </div>
-        </Reveal>
+          <a
+            href="https://github.com/basavarajha05"
+            target="_blank"
+            rel="noreferrer"
+            className="p-6 sm:p-8 bg-cream hover:bg-ink hover:text-cream transition-colors group"
+            data-testid="link-contact-github"
+          >
+            <div className="flex items-center justify-between mb-6">
+              <Github size={20} />
+              <ArrowUpRight size={18} className="opacity-50 group-hover:opacity-100 group-hover:rotate-45 transition-all" />
+            </div>
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] mb-2 opacity-70">
+              GitHub
+            </div>
+            <div className="font-display text-2xl sm:text-3xl uppercase">
+              /basavarajha05
+            </div>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

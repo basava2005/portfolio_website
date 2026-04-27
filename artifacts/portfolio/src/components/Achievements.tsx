@@ -1,18 +1,21 @@
-import Reveal from "./Reveal";
+import { motion } from "framer-motion";
+import { Trophy, Globe } from "lucide-react";
 import SectionHeader from "./SectionHeader";
 
 const items = [
   {
-    icon: "🏆",
-    title: "Top 10 Finalist — Hackathon",
-    org: "JNNCE Shivamogga",
-    date: "Mar 2026",
+    icon: Trophy,
+    title: "Hackathon Winner",
+    blurb:
+      "Awarded for building an AI-powered productivity tool in under 24 hours, beating teams from across regional engineering colleges.",
+    tag: "Trophy",
   },
   {
-    icon: "🌐",
-    title: "Winter of Code — Social Contributor",
-    org: "Open Source",
-    date: "Jan 2026",
+    icon: Globe,
+    title: "Open Source Contributor",
+    blurb:
+      "Active contributor to community JavaScript and Python repositories — bug fixes, tooling, and documentation in widely-used libraries.",
+    tag: "Community",
   },
 ];
 
@@ -20,41 +23,47 @@ export default function Achievements() {
   return (
     <section
       id="achievements"
-      className="relative px-6 sm:px-10 py-28 sm:py-40"
-      data-testid="section-achievements"
+      className="relative bg-cream lg:pl-16 xl:pl-20 py-24 sm:py-32 paper-grain"
+      data-testid="achievements-root"
     >
-      <div className="mx-auto max-w-7xl">
-        <SectionHeader index="04" kicker="Recognition" title="Wins worth noting." />
+      <div className="px-4 sm:px-8 lg:px-12">
+        <SectionHeader
+          number="04"
+          kicker="Honors"
+          title={"Achievements"}
+          subtitle="Things people kindly handed me a piece of paper for."
+        />
 
-        <div className="grid sm:grid-cols-2 gap-5 sm:gap-7">
-          {items.map((it, i) => (
-            <Reveal key={i} delay={i * 0.08}>
-              <article
-                className="relative rounded-2xl border border-white/10 bg-white/[0.02] p-7 sm:p-9 backdrop-blur-sm hover:border-[#7cffd4]/30 hover:bg-white/[0.04] transition-all"
-                data-testid={`card-achievement-${i}`}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-12">
+          {items.map((it, i) => {
+            const Icon = it.icon;
+            return (
+              <motion.div
+                key={it.title}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.6, delay: i * 0.1 }}
+                className="border border-ink bg-cream shadow-brutal hover-lift"
+                data-testid={`achievement-${i}`}
               >
-                <div className="flex items-start gap-5">
-                  <div
-                    className="flex-shrink-0 h-14 w-14 rounded-xl border border-white/10 bg-black/40 grid place-items-center text-2xl"
-                    aria-hidden
-                  >
-                    {it.icon}
-                  </div>
-                  <div className="flex flex-col gap-1.5">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-[#7cffd4]">
-                      {it.date}
-                    </div>
-                    <h3 className="font-display text-2xl sm:text-3xl text-white leading-tight">
-                      {it.title}
-                    </h3>
-                    <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/50">
-                      {it.org}
-                    </div>
-                  </div>
+                <div className="bg-ink text-cream px-5 py-3 flex items-center justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.3em]">
+                    {it.tag} · No. 0{i + 1}
+                  </span>
+                  <Icon size={18} className="text-orange" />
                 </div>
-              </article>
-            </Reveal>
-          ))}
+                <div className="p-6 sm:p-8">
+                  <h3 className="font-display text-3xl sm:text-4xl uppercase leading-[0.95] mb-4">
+                    {it.title}
+                  </h3>
+                  <p className="font-serif text-lg leading-relaxed text-ink/80">
+                    {it.blurb}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

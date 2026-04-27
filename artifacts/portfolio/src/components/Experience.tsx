@@ -1,73 +1,110 @@
-import Reveal from "./Reveal";
+import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
 
-const experience = [
-  {
-    role: "Software Developer Intern",
-    company: "Luxoft",
-    period: "May 2025 — Present",
-    location: "Remote",
-    bullets: [
-      "Built React UIs and Python Flask APIs for full-stack web applications",
-      "Developed an AUTOSAR BSWM Rule Visualizer for JSON-based logic",
-      "Built an LLM chatbot using Mistral served via LM Studio",
-      "Used Renode for embedded system simulation and validation",
-      "Engineered an AUTOSAR Analysis & Simulation Suite end-to-end",
-    ],
-  },
+const bullets = [
+  "Building and integrating production web applications using modern stacks (React, Node, Python).",
+  "Working on AUTOSAR-based automotive software tooling and embedded workflows.",
+  "Designing internal LLM-powered utilities to accelerate engineer productivity.",
+  "Collaborating with senior engineers across geographies on architecture and code review.",
+  "Owning small features end-to-end — from spec to deploy to follow-up support.",
 ];
 
 export default function Experience() {
   return (
     <section
       id="experience"
-      className="relative px-6 sm:px-10 py-28 sm:py-40"
-      data-testid="section-experience"
+      className="relative bg-cream lg:pl-16 xl:pl-20 py-24 sm:py-32"
+      data-testid="experience-root"
     >
-      <div className="mx-auto max-w-7xl">
-        <SectionHeader index="02" kicker="Experience" title="Where I've shipped." />
+      <div className="px-4 sm:px-8 lg:px-12">
+        <SectionHeader
+          number="02"
+          kicker="Field Notes"
+          title={"Experience"}
+          subtitle="Where the work has happened so far."
+        />
 
-        <div className="space-y-6">
-          {experience.map((job, idx) => (
-            <Reveal key={idx} delay={idx * 0.08}>
-              <article
-                className="group relative rounded-2xl border border-white/10 bg-white/[0.02] p-7 sm:p-10 backdrop-blur-sm hover:border-[#7cffd4]/30 transition-all"
-                data-testid={`card-experience-${idx}`}
-              >
-                <div className="absolute left-0 top-7 sm:top-10 bottom-7 sm:bottom-10 w-px bg-gradient-to-b from-[#7cffd4]/0 via-[#7cffd4]/60 to-[#7cffd4]/0" />
-                <div className="grid lg:grid-cols-12 gap-6 lg:gap-10">
-                  <div className="lg:col-span-4 flex flex-col gap-2">
-                    <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#7cffd4]">
-                      {job.period}
-                    </div>
-                    <h3 className="font-display text-3xl sm:text-4xl text-white leading-tight">
-                      {job.company}
-                    </h3>
-                    <div className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/40">
-                      {job.location}
-                    </div>
-                  </div>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
+          {/* Left margin column with date + meta — like a magazine */}
+          <motion.aside
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-3 border-l-4 border-orange pl-4 lg:sticky lg:top-20 lg:self-start"
+          >
+            <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 mb-2">
+              Period
+            </div>
+            <div className="font-display text-3xl">
+              2024 <span className="text-orange">—</span> Now
+            </div>
+            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 mb-2">
+              Location
+            </div>
+            <div className="font-display text-xl">Remote · India</div>
+            <div className="mt-6 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 mb-2">
+              Type
+            </div>
+            <div className="font-display text-xl">Internship</div>
+          </motion.aside>
 
-                  <div className="lg:col-span-8">
-                    <div className="text-white/85 text-lg sm:text-xl mb-5">
-                      {job.role}
-                    </div>
-                    <ul className="space-y-3">
-                      {job.bullets.map((b, i) => (
-                        <li
-                          key={i}
-                          className="flex gap-3 text-white/65 leading-relaxed"
-                        >
-                          <span className="mt-2 h-1 w-3 flex-shrink-0 bg-[#7cffd4]/70" />
-                          <span>{b}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+          {/* Article body */}
+          <motion.article
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="lg:col-span-9 border border-ink bg-cream shadow-brutal-orange"
+            data-testid="experience-card-luxoft"
+          >
+            <header className="bg-ink text-cream px-6 py-4 flex items-center justify-between flex-wrap gap-3">
+              <div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-orange mb-1">
+                  Currently
                 </div>
-              </article>
-            </Reveal>
-          ))}
+                <h3 className="font-display text-3xl sm:text-4xl uppercase">
+                  Software Engineering Intern
+                </h3>
+              </div>
+              <div className="text-right">
+                <div className="font-display text-2xl sm:text-3xl uppercase text-orange">
+                  Luxoft
+                </div>
+                <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/70 mt-1">
+                  A DXC Technology Co.
+                </div>
+              </div>
+            </header>
+
+            <div className="px-6 py-6 sm:px-8 sm:py-8">
+              <p className="font-serif text-xl leading-relaxed text-ink/85 mb-6">
+                <span className="font-display text-5xl float-left leading-[0.8] mr-3 mt-1 text-orange">
+                  W
+                </span>
+                orking across full-stack web, automotive software, and AI tooling
+                — translating real engineering problems into shipped, maintainable
+                software.
+              </p>
+
+              <ul className="space-y-0 border-t border-ink/15">
+                {bullets.map((b, i) => (
+                  <li
+                    key={i}
+                    className="grid grid-cols-12 gap-4 border-b border-ink/15 py-4"
+                    data-testid={`experience-bullet-${i}`}
+                  >
+                    <span className="col-span-2 sm:col-span-1 font-mono text-xs text-orange pt-1">
+                      0{i + 1}
+                    </span>
+                    <span className="col-span-10 sm:col-span-11 text-ink/85 font-sans text-base sm:text-lg">
+                      {b}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </motion.article>
         </div>
       </div>
     </section>

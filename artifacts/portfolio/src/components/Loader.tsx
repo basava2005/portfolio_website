@@ -11,7 +11,7 @@ export default function Loader({ onFinish }: LoaderProps) {
 
   useEffect(() => {
     const start = performance.now();
-    const duration = 2500;
+    const duration = 1800;
     let frame = 0;
 
     const tick = (now: number) => {
@@ -23,7 +23,7 @@ export default function Loader({ onFinish }: LoaderProps) {
         setTimeout(() => {
           setVisible(false);
           onFinish();
-        }, 350);
+        }, 250);
       }
     };
 
@@ -31,53 +31,50 @@ export default function Loader({ onFinish }: LoaderProps) {
     return () => cancelAnimationFrame(frame);
   }, [onFinish]);
 
-  const name = "BASAVARAJ H A";
-
   return (
     <AnimatePresence>
       {visible && (
         <motion.div
           key="loader"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, transition: { duration: 0.7, ease: [0.65, 0, 0.35, 1] } }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#050508]"
+          exit={{
+            y: "-100%",
+            transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] },
+          }}
+          className="fixed inset-0 z-[100] bg-ink text-cream flex flex-col"
           data-testid="loader-root"
         >
-          <div className="absolute inset-0 opacity-30" style={{
-            background: "radial-gradient(circle at 50% 50%, rgba(124,255,212,0.18), transparent 60%)"
-          }} />
+          <div className="flex items-center justify-between border-b border-cream/20 px-6 py-4">
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em]">
+              Issue No. 01 / Vol. 2026
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em]">
+              <span className="blink">●</span> Now Loading
+            </span>
+          </div>
 
-          <div className="relative flex flex-col items-center gap-10 px-8 w-full max-w-3xl">
-            <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/40">
-              <span className="text-[#7cffd4]">●</span> Initializing portfolio_v1.0
+          <div className="flex-1 flex flex-col justify-center px-6 sm:px-16">
+            <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-orange mb-6">
+              The Basavaraj Issue
             </div>
-
             <h1
-              className="font-display text-6xl sm:text-7xl md:text-8xl text-white text-center leading-none"
+              className="font-display text-[18vw] sm:text-[14vw] lg:text-[12rem] leading-[0.85] uppercase"
               data-testid="text-loader-name"
             >
-              {name.split("").map((c, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ y: 40, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: i * 0.05, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                  className="inline-block"
-                  style={{ minWidth: c === " " ? "0.4em" : undefined }}
-                >
-                  {c === " " ? "\u00A0" : c}
-                </motion.span>
-              ))}
+              Basavaraj
+              <br />
+              <span className="text-orange">H A</span>
             </h1>
-
-            <div className="w-full max-w-md flex flex-col gap-3">
-              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-white/50">
-                <span>loading assets</span>
-                <span data-testid="text-loader-progress">{Math.floor(progress).toString().padStart(3, "0")}%</span>
+            <div className="mt-12 max-w-md">
+              <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em] mb-2">
+                <span>Setting type</span>
+                <span data-testid="text-loader-progress">
+                  {Math.floor(progress).toString().padStart(3, "0")} / 100
+                </span>
               </div>
-              <div className="h-[2px] w-full bg-white/10 overflow-hidden rounded-full">
+              <div className="h-[3px] w-full bg-cream/15 overflow-hidden">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-[#7cffd4] via-[#a78bfa] to-[#ff6b6b]"
+                  className="h-full bg-orange"
                   style={{ width: `${progress}%` }}
                   data-testid="bar-loader-progress"
                 />
@@ -85,8 +82,10 @@ export default function Loader({ onFinish }: LoaderProps) {
             </div>
           </div>
 
-          <div className="absolute bottom-8 font-mono text-[10px] uppercase tracking-[0.4em] text-white/30">
-            basavaraj h a — full stack & ai
+          <div className="border-t border-cream/20 px-6 py-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em]">
+            <span>Karnataka · India</span>
+            <span>Full Stack · AI</span>
+            <span>Open to Work</span>
           </div>
         </motion.div>
       )}

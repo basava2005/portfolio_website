@@ -1,137 +1,147 @@
 import { motion } from "framer-motion";
 import { Link } from "react-scroll";
-import { ArrowDownRight, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 
 export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center pt-32 pb-24 px-6 sm:px-10"
-      data-testid="section-hero"
+      className="relative min-h-screen lg:pl-16 xl:pl-20 pt-9 paper-grain"
+      data-testid="hero-root"
     >
-      <div className="mx-auto max-w-7xl w-full grid lg:grid-cols-12 gap-10 items-end">
-        <div className="lg:col-span-9">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 backdrop-blur-md"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-[#7cffd4] opacity-75 pulse-dot" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-[#7cffd4]" />
-            </span>
-            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/70">
-              Available for Opportunities
-            </span>
-          </motion.div>
+      <div className="absolute inset-0 grid-lines pointer-events-none" />
 
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mt-8 font-mono text-[11px] uppercase tracking-[0.4em] text-white/40"
-          >
-            Portfolio · Vol. 01 · 2026
-          </motion.div>
+      <div className="relative px-4 sm:px-8 lg:px-12 pt-10 pb-16 min-h-[calc(100vh-2.25rem)] flex flex-col">
+        {/* Top meta strip */}
+        <div className="flex items-center justify-between border-b border-ink pb-3 font-mono text-[10px] uppercase tracking-[0.3em]">
+          <span>Issue 01 · Vol. 2026 · Edition: Personal</span>
+          <span className="hidden sm:inline">A Brutalist Portfolio</span>
+        </div>
 
-          <h1
-            className="mt-3 font-display leading-[0.85] tracking-tight"
-            data-testid="text-hero-name"
-          >
-            <motion.span
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-              className="block text-white text-[18vw] sm:text-[14vw] lg:text-[11.5rem]"
-            >
-              BASAVARAJ
-            </motion.span>
-            <motion.span
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="block text-gradient-brand text-[18vw] sm:text-[14vw] lg:text-[11.5rem]"
-            >
+        {/* Eyebrow */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1 }}
+          className="mt-8 flex items-center gap-3"
+        >
+          <span className="h-2 w-2 bg-orange rounded-full blink" />
+          <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-ink/70">
+            Available for Opportunities · Intern @ Luxoft
+          </span>
+        </motion.div>
+
+        {/* Hero name — massive editorial */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display uppercase leading-[0.82] mt-6"
+          data-testid="text-hero-name"
+        >
+          <span className="block text-[19vw] sm:text-[14vw] lg:text-[11rem] xl:text-[13rem]">
+            Basa<span className="text-orange">v</span>araj
+          </span>
+          <span className="flex items-end gap-4 sm:gap-8 mt-2">
+            <span className="block text-[19vw] sm:text-[14vw] lg:text-[11rem] xl:text-[13rem]">
               H A
-            </motion.span>
-          </h1>
+            </span>
+            <span className="hidden sm:inline-block font-serif italic text-2xl sm:text-4xl lg:text-5xl text-ink/70 pb-4 sm:pb-8 lg:pb-10">
+              <span className="not-italic font-mono text-xs uppercase tracking-[0.3em] block mb-1">
+                — also called
+              </span>
+              the developer.
+            </span>
+          </span>
+        </motion.h1>
 
+        {/* Bottom row: lede + actions + meta */}
+        <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-end flex-1">
+          {/* Big drop-cap intro */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.55 }}
-            className="mt-8 flex flex-col gap-2"
-          >
-            <p className="font-sans text-xl sm:text-2xl text-white/80" data-testid="text-hero-subtitle">
-              Full Stack Developer<span className="text-[#7cffd4]"> & </span>AI Enthusiast
-            </p>
-            <p className="font-mono text-[11px] uppercase tracking-[0.3em] text-white/40">
-              Karnataka, India · ISE @ GM Institute of Technology
-            </p>
-          </motion.div>
-
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.65 }}
-            className="mt-6 max-w-2xl text-white/60 leading-relaxed text-base sm:text-lg"
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="lg:col-span-6 max-w-xl"
             data-testid="text-hero-bio"
           >
-            I build production-grade web platforms and AI-powered tools — from
-            AUTOSAR rule visualizers and embedded simulation suites at Luxoft to
-            LLM-driven legal platforms and face-recognition systems. Quietly
-            obsessed with shipping things that actually work.
-          </motion.p>
+            <p className="font-serif text-2xl sm:text-3xl leading-[1.15] text-ink">
+              <span className="float-left font-display text-7xl leading-[0.8] mr-3 mt-1 text-orange">
+                F
+              </span>
+              ull Stack Developer & AI Enthusiast crafting{" "}
+              <span className="underline-orange">production-grade</span>{" "}
+              web apps, AUTOSAR tooling, and LLM-powered systems. Currently
+              interning at Luxoft.
+            </p>
+          </motion.div>
 
+          {/* Actions */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.75 }}
-            className="mt-10 flex flex-wrap gap-4"
+            transition={{ duration: 0.8, delay: 0.65 }}
+            className="lg:col-span-3 flex flex-col gap-3"
           >
             <Link
               to="projects"
               smooth
               duration={800}
-              offset={-40}
-              className="group inline-flex items-center gap-3 rounded-full bg-[#7cffd4] px-6 py-3 font-mono text-[11px] uppercase tracking-[0.3em] text-[#050508] hover:bg-white transition-all glow-mint cursor-pointer"
+              offset={-50}
+              className="group inline-flex items-center justify-between bg-ink text-cream px-5 py-4 font-mono text-xs uppercase tracking-[0.3em] cursor-pointer hover-lift hover-lift-orange shadow-brutal-orange"
               data-testid="button-view-work"
             >
-              View Work
-              <ArrowDownRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5" />
+              <span>See the Work</span>
+              <ArrowUpRight size={18} className="group-hover:rotate-45 transition-transform" />
             </Link>
             <Link
               to="contact"
               smooth
               duration={800}
-              offset={-40}
-              className="inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/[0.02] px-6 py-3 font-mono text-[11px] uppercase tracking-[0.3em] text-white/80 hover:border-[#7cffd4]/60 hover:text-[#7cffd4] transition-all cursor-pointer"
-              data-testid="button-get-in-touch"
+              offset={-50}
+              className="group inline-flex items-center justify-between bg-cream border border-ink text-ink px-5 py-4 font-mono text-xs uppercase tracking-[0.3em] cursor-pointer hover-lift shadow-brutal"
+              data-testid="button-contact"
             >
-              <Mail size={14} />
-              Get In Touch
+              <span>Get In Touch</span>
+              <ArrowUpRight size={18} className="group-hover:rotate-45 transition-transform" />
             </Link>
+          </motion.div>
+
+          {/* Stats column */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="lg:col-span-3 grid grid-cols-3 lg:grid-cols-1 gap-4 border-t lg:border-t-0 lg:border-l border-ink pt-6 lg:pt-0 lg:pl-6"
+          >
+            <div>
+              <div className="font-display text-5xl text-orange">10+</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 mt-1">
+                Projects shipped
+              </div>
+            </div>
+            <div>
+              <div className="font-display text-5xl">17</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 mt-1">
+                Core skills
+              </div>
+            </div>
+            <div>
+              <div className="font-display text-5xl">∞</div>
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 mt-1">
+                Curiosity
+              </div>
+            </div>
           </motion.div>
         </div>
 
-        <div className="lg:col-span-3 hidden lg:flex flex-col items-end gap-6 pb-6">
-          <div className="font-mono text-[10px] uppercase tracking-[0.35em] text-white/30 text-right">
-            <div>(00) Index</div>
-            <div className="mt-1 text-white/60">01 — Hero</div>
-            <div className="text-white/30">02 — About</div>
-            <div className="text-white/30">03 — Experience</div>
-            <div className="text-white/30">04 — Projects</div>
-            <div className="text-white/30">05 — Contact</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="absolute left-1/2 -translate-x-1/2 bottom-6 flex flex-col items-center gap-2">
-        <span className="font-mono text-[10px] uppercase tracking-[0.4em] text-white/40">scroll</span>
-        <div className="relative h-14 w-[2px] overflow-hidden">
-          <div className="absolute inset-0 bg-white/10" />
-          <div className="absolute inset-x-0 h-1/2 bg-[#7cffd4] scroll-line-anim" />
+        {/* Bottom: scroll hint + bottom rule */}
+        <div className="mt-10 border-t border-ink pt-3 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.3em]">
+          <span className="flex items-center gap-2">
+            <ArrowDown size={12} /> Scroll to read
+          </span>
+          <span className="hidden sm:inline">Page 01 of 06</span>
+          <span>basavarajha05@gmail.com</span>
         </div>
       </div>
     </section>
