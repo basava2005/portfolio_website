@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Save, RefreshCw } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Save, RefreshCw, Upload, X, Camera } from "lucide-react";
 
 interface HeroSettings {
   name: string;
@@ -25,15 +25,37 @@ const defaults: HeroSettings = {
   stat3Label: "Curiosity", stat3Value: "∞",
 };
 
+async function requestUploadUrl() {
+  const res = await fetch("/api/admin/storage/request-url", { method: "POST", credentials: "include" });
+  if (!res.ok) throw new Error("Failed to get upload URL");
+  return res.json() as Promise<{ uploadURL: string; objectPath: string }>;
+}
+
+async function uploadToStorage(file: File, uploadURL: string) {
+  const res = await fetch(uploadURL, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
+  if (!res.ok) throw new Error("Upload failed");
+}
+
+function getPublicUrl(objectPath: string) {
+  return `/api/storage/object/${objectPath}`;
+}
+
 export default function AdminHero() {
   const [form, setForm] = useState<HeroSettings>(defaults);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadMsg, setUploadMsg] = useState("");
+  const photoRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     fetch("/api/admin/settings", { credentials: "include" })
       .then((r) => r.json())
-      .then((d) => { if (d.hero) setForm({ ...defaults, ...d.hero }); })
+      .then((d) => {
+        if (d.hero) setForm({ ...defaults, ...d.hero });
+        if (d.profile_photo && typeof d.profile_photo === "string") setPhotoUrl(d.profile_photo);
+      })
       .catch(() => {});
   }, []);
 
@@ -48,6 +70,38 @@ export default function AdminHero() {
       setSaved(true);
       setTimeout(() => setSaved(false), 2500);
     } finally { setSaving(false); }
+  };
+
+  const handlePhotoUpload = async (file: File) => {
+    if (!file.type.startsWith("image/")) { setUploadMsg("Only image files are supported."); return; }
+    setUploading(true);
+    setUploadMsg("Getting upload URL…");
+    try {
+      const { uploadURL, objectPath } = await requestUploadUrl();
+      setUploadMsg("Uploading…");
+      await uploadToStorage(file, uploadURL);
+      const publicUrl = getPublicUrl(objectPath);
+      setUploadMsg("Saving…");
+      await fetch("/api/admin/settings/profile_photo", {
+        method: "PUT", credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value: publicUrl }),
+      });
+      setPhotoUrl(publicUrl);
+      setUploadMsg("Photo saved!");
+      setTimeout(() => setUploadMsg(""), 2500);
+    } catch (err) {
+      setUploadMsg("Upload failed. Try again.");
+    } finally { setUploading(false); }
+  };
+
+  const removePhoto = async () => {
+    await fetch("/api/admin/settings/profile_photo", {
+      method: "PUT", credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ value: null }),
+    });
+    setPhotoUrl(null);
   };
 
   const set = (k: keyof HeroSettings, v: any) => setForm((p) => ({ ...p, [k]: v }));
@@ -67,6 +121,63 @@ export default function AdminHero() {
         </button>
       </div>
 
+      {/* Profile Photo */}
+      <div className="border border-ink mb-6">
+        <div className="bg-ink text-cream px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] flex items-center gap-2">
+          <Camera size={12} /> Profile Photo
+        </div>
+        <div className="p-4 flex items-center gap-6">
+          {/* Preview */}
+          <div className="relative flex-shrink-0">
+            {photoUrl ? (
+              <div className="relative">
+                <img src={photoUrl} alt="Profile" className="h-24 w-24 object-cover border-2 border-ink" style={{ borderRadius: 0 }} />
+                <button
+                  onClick={removePhoto}
+                  className="absolute -top-2 -right-2 h-5 w-5 bg-red-500 text-white flex items-center justify-center hover:bg-red-600 transition-colors"
+                  title="Remove photo"
+                >
+                  <X size={11} />
+                </button>
+              </div>
+            ) : (
+              <div className="h-24 w-24 border-2 border-dashed border-ink/30 flex items-center justify-center text-ink/30">
+                <Camera size={28} />
+              </div>
+            )}
+          </div>
+
+          {/* Upload controls */}
+          <div className="flex-1">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 mb-3">
+              Shown in the sidebar. Click it on the portfolio to expand fullscreen.
+            </p>
+            <input
+              ref={photoRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={(e) => { const f = e.target.files?.[0]; if (f) handlePhotoUpload(f); e.target.value = ""; }}
+            />
+            <button
+              onClick={() => photoRef.current?.click()}
+              disabled={uploading}
+              className="flex items-center gap-2 border border-ink px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] hover:bg-ink hover:text-cream transition-colors disabled:opacity-50"
+              data-testid="button-upload-photo"
+            >
+              <Upload size={13} />
+              {uploading ? "Uploading…" : photoUrl ? "Replace Photo" : "Upload Photo"}
+            </button>
+            {uploadMsg && (
+              <div className={`mt-2 font-mono text-[10px] uppercase tracking-[0.3em] ${uploadMsg.includes("failed") ? "text-red-500" : "text-orange"}`}>
+                {uploadMsg}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Hero text fields */}
       <div className="space-y-0 border border-ink">
         {([
           { label: "Full Name", key: "name", placeholder: "Basavaraj H A" },
