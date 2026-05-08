@@ -34,22 +34,22 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Desktop fixed left rail */}
+      {/* Desktop fixed left rail — simplified: just numbered dots */}
       <aside
-        className="hidden lg:flex fixed left-0 top-9 bottom-0 z-40 w-16 xl:w-20 flex-col items-center justify-between border-r border-ink bg-cream py-6"
+        className="hidden lg:flex fixed left-0 top-9 bottom-0 z-40 w-14 flex-col items-center justify-between bg-cream border-r-2 border-ink py-6"
         data-testid="sidebar-root"
       >
         <Link
           to="hero"
           smooth
           duration={700}
-          className="font-display text-2xl text-ink cursor-pointer leading-none"
+          className="font-display text-xl text-ink cursor-pointer leading-none select-none"
           data-testid="link-logo"
         >
           B<span className="text-orange">·</span>A
         </Link>
 
-        <nav className="flex flex-col gap-1 [writing-mode:vertical-rl] rotate-180">
+        <nav className="flex flex-col items-center gap-3">
           {links.map((l) => (
             <Link
               key={l.id}
@@ -58,29 +58,38 @@ export default function Sidebar() {
               duration={700}
               offset={-50}
               spy
-              className={`font-mono text-[10px] uppercase tracking-[0.3em] py-3 transition-colors cursor-pointer ${
-                active === l.id ? "text-orange" : "text-ink/40 hover:text-ink"
-              }`}
+              title={l.label}
+              className="relative group cursor-pointer"
               data-testid={`link-side-${l.id}`}
             >
-              {l.n}/ {l.label}
+              <div
+                className={`h-2 w-2 rounded-full transition-all duration-200 ${
+                  active === l.id
+                    ? "bg-orange scale-125"
+                    : "bg-ink/30 group-hover:bg-ink"
+                }`}
+              />
+              {/* Tooltip on hover */}
+              <div className="absolute left-6 top-1/2 -translate-y-1/2 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity bg-ink text-cream font-mono text-[9px] uppercase tracking-[0.25em] px-2 py-1 whitespace-nowrap">
+                {l.n} / {l.label}
+              </div>
             </Link>
           ))}
         </nav>
 
-        <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-ink/50 [writing-mode:vertical-rl] rotate-180">
-          Est. 2026
+        <div className="font-mono text-[8px] uppercase tracking-[0.3em] text-ink/40 [writing-mode:vertical-rl] rotate-180">
+          2026
         </div>
       </aside>
 
       {/* Mobile menu button */}
       <button
         onClick={() => setOpen(true)}
-        className="lg:hidden fixed top-12 right-4 z-40 h-12 w-12 bg-ink text-cream grid place-items-center shadow-brutal-orange"
+        className="lg:hidden fixed top-12 right-4 z-40 h-11 w-11 bg-ink text-cream grid place-items-center shadow-brutal-orange"
         aria-label="Open menu"
         data-testid="button-menu-open"
       >
-        <Menu size={20} />
+        <Menu size={18} />
       </button>
 
       <AnimatePresence>
@@ -125,15 +134,9 @@ export default function Sidebar() {
                 </Link>
               ))}
             </nav>
-            <a
-              href="mailto:basavarajha05@gmail.com"
-              onClick={() => setOpen(false)}
-              className="border-t border-cream/20 px-6 py-5 font-mono text-xs uppercase tracking-[0.3em] text-orange flex items-center justify-between"
-              data-testid="link-mobile-email"
-            >
-              <span>basavarajha05@gmail.com</span>
-              <span>↗</span>
-            </a>
+            <div className="border-t border-cream/20 px-6 py-5 font-mono text-xs uppercase tracking-[0.3em] text-cream/50">
+              Basavaraj H A · Full Stack Dev
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

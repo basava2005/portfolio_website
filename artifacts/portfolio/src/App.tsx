@@ -12,8 +12,11 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import StatusSticker from "@/components/StatusSticker";
 import Marquee from "@/components/Marquee";
+import AdminApp from "@/components/admin/AdminApp";
 
-function App() {
+const isAdmin = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
+
+function Portfolio() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -21,17 +24,12 @@ function App() {
   }, []);
 
   return (
-    <div
-      className="relative min-h-screen bg-cream text-ink font-sans"
-      data-testid="app-root"
-    >
+    <div className="relative min-h-screen bg-cream text-ink font-sans" data-testid="app-root">
       <Loader onFinish={() => setLoading(false)} />
-
       {!loading && (
         <>
           <Topbar />
           <Sidebar />
-
           <main className="relative">
             <Hero />
             <Marquee />
@@ -42,7 +40,6 @@ function App() {
             <Certifications />
             <Contact />
           </main>
-
           <Footer />
           <StatusSticker />
         </>
@@ -51,4 +48,7 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  if (isAdmin) return <AdminApp />;
+  return <Portfolio />;
+}
