@@ -1,0 +1,133 @@
+import { useEffect, useState } from "react";
+import { Save, RefreshCw } from "lucide-react";
+
+interface HeroSettings {
+  name: string;
+  tagline: string;
+  bio: string;
+  available: boolean;
+  availableText: string;
+  location: string;
+  stat1Label: string; stat1Value: string;
+  stat2Label: string; stat2Value: string;
+  stat3Label: string; stat3Value: string;
+}
+
+const defaults: HeroSettings = {
+  name: "Basavaraj H A",
+  tagline: "Full Stack Developer & AI Enthusiast",
+  bio: "Full Stack Developer & AI Enthusiast crafting production-grade web apps, AUTOSAR tooling, and LLM-powered systems. Currently interning at Luxoft.",
+  available: true,
+  availableText: "Available for Opportunities · Intern @ Luxoft",
+  location: "Karnataka, India",
+  stat1Label: "Projects shipped", stat1Value: "10+",
+  stat2Label: "Core skills", stat2Value: "17",
+  stat3Label: "Curiosity", stat3Value: "∞",
+};
+
+export default function AdminHero() {
+  const [form, setForm] = useState<HeroSettings>(defaults);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    fetch("/api/admin/settings", { credentials: "include" })
+      .then((r) => r.json())
+      .then((d) => { if (d.hero) setForm({ ...defaults, ...d.hero }); })
+      .catch(() => {});
+  }, []);
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      await fetch("/api/admin/settings/hero", {
+        method: "PUT", credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ value: form }),
+      });
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2500);
+    } finally { setSaving(false); }
+  };
+
+  const set = (k: keyof HeroSettings, v: any) => setForm((p) => ({ ...p, [k]: v }));
+
+  return (
+    <div data-testid="admin-hero">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-orange mb-1">Admin / Hero</div>
+          <h2 className="font-display text-4xl uppercase">Hero Section</h2>
+        </div>
+        <button onClick={handleSave} disabled={saving}
+          className="flex items-center gap-2 bg-ink text-cream px-4 py-3 font-mono text-xs uppercase tracking-[0.3em] hover:bg-orange hover:text-ink transition-colors disabled:opacity-50"
+          data-testid="button-save-hero">
+          {saving ? <RefreshCw size={14} className="animate-spin" /> : <Save size={14} />}
+          {saved ? "Saved!" : "Save Changes"}
+        </button>
+      </div>
+
+      <div className="space-y-0 border border-ink">
+        {([
+          { label: "Full Name", key: "name", placeholder: "Basavaraj H A" },
+          { label: "Tagline / Role", key: "tagline", placeholder: "Full Stack Developer & AI Enthusiast" },
+          { label: "Location", key: "location", placeholder: "Karnataka, India" },
+          { label: "Status Badge Text", key: "availableText", placeholder: "Available for Opportunities · Intern @ Luxoft" },
+        ] as const).map((f) => (
+          <label key={f.key} className="grid grid-cols-12 border-b border-ink items-center">
+            <span className="col-span-3 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 bg-ink/5 border-r border-ink h-full flex items-center">{f.label}</span>
+            <input
+              className="col-span-9 px-4 py-3 bg-transparent outline-none font-display text-xl uppercase placeholder:text-ink/25"
+              value={(form as any)[f.key]}
+              onChange={(e) => set(f.key as keyof HeroSettings, e.target.value)}
+              placeholder={f.placeholder}
+              data-testid={`input-hero-${f.key}`}
+            />
+          </label>
+        ))}
+
+        <label className="grid grid-cols-12 border-b border-ink items-start">
+          <span className="col-span-3 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 bg-ink/5 border-r border-ink">Bio Text</span>
+          <textarea
+            className="col-span-9 px-4 py-3 bg-transparent outline-none font-serif text-base leading-relaxed resize-none placeholder:text-ink/25"
+            rows={4} value={form.bio}
+            onChange={(e) => set("bio", e.target.value)}
+            placeholder="Your intro paragraph…"
+            data-testid="input-hero-bio"
+          />
+        </label>
+
+        <label className="grid grid-cols-12 border-b border-ink items-center">
+          <span className="col-span-3 px-4 py-3 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 bg-ink/5 border-r border-ink">Available</span>
+          <div className="col-span-9 px-4 py-3 flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => set("available", !form.available)}
+              className={`relative h-6 w-12 rounded-none transition-colors ${form.available ? "bg-orange" : "bg-ink/20"}`}
+              data-testid="toggle-hero-available"
+            >
+              <span className={`absolute top-1 h-4 w-4 bg-ink transition-all ${form.available ? "left-7" : "left-1"}`} />
+            </button>
+            <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60">
+              {form.available ? "Showing as available" : "Hidden"}
+            </span>
+          </div>
+        </label>
+
+        <div className="grid grid-cols-3 divide-x divide-ink border-b border-ink">
+          {(["1","2","3"] as const).map((n) => (
+            <div key={n} className="p-4">
+              <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/50 mb-2">Stat {n}</div>
+              <input className="w-full bg-transparent outline-none font-display text-3xl uppercase mb-1 placeholder:text-ink/20"
+                value={(form as any)[`stat${n}Value`]} onChange={(e) => set(`stat${n}Value` as any, e.target.value)}
+                placeholder="10+" data-testid={`input-hero-stat${n}value`} />
+              <input className="w-full bg-transparent outline-none font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 placeholder:text-ink/20"
+                value={(form as any)[`stat${n}Label`]} onChange={(e) => set(`stat${n}Label` as any, e.target.value)}
+                placeholder="Label" data-testid={`input-hero-stat${n}label`} />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
