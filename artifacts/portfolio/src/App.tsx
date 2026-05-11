@@ -12,9 +12,11 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import StatusSticker from "@/components/StatusSticker";
 import Marquee from "@/components/Marquee";
+import Cursor from "@/components/Cursor";
 import AdminApp from "@/components/admin/AdminApp";
 
 const isAdmin = typeof window !== "undefined" && window.location.pathname.startsWith("/admin");
+const isTouchDevice = typeof window !== "undefined" && window.matchMedia("(hover: none)").matches;
 
 function Portfolio() {
   const [loading, setLoading] = useState(true);
@@ -25,6 +27,7 @@ function Portfolio() {
 
   return (
     <div className="relative min-h-screen bg-cream text-ink font-sans" data-testid="app-root">
+      {!isTouchDevice && <Cursor />}
       <Loader onFinish={() => setLoading(false)} />
       {!loading && (
         <>
