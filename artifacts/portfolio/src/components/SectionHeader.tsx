@@ -49,7 +49,7 @@ export default function SectionHeader({ number, kicker, title, subtitle, invert 
           §{number} — {kicker}
         </motion.div>
 
-        <div className={`font-display uppercase leading-[0.85] text-5xl sm:text-7xl lg:text-8xl overflow-hidden ${invert ? "text-cream" : "text-ink"}`}>
+        <div className={`font-display uppercase leading-[0.85] text-5xl sm:text-7xl lg:text-8xl ${invert ? "text-cream" : "text-ink"}`}>
           {lines.map((line, li) => (
             <div key={li} className="overflow-hidden">
               <motion.div
