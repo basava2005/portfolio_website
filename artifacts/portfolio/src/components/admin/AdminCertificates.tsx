@@ -46,7 +46,11 @@ export default function AdminCertificates() {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/certificates", { credentials: "include" });
-      setCerts(await res.json());
+      const data = await res.json();
+      setCerts(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to load certificates:", err);
+      setCerts([]);
     } finally {
       setLoading(false);
     }

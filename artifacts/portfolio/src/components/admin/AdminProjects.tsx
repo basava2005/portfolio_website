@@ -26,7 +26,11 @@ export default function AdminProjects() {
     setLoading(true);
     try {
       const r = await fetch("/api/admin/projects", { credentials: "include" });
-      setItems(await r.json());
+      const data = await r.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to load projects:", err);
+      setItems([]);
     } finally { setLoading(false); }
   };
 

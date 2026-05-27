@@ -27,7 +27,11 @@ export default function AdminExperience() {
     setLoading(true);
     try {
       const r = await fetch("/api/admin/experiences", { credentials: "include" });
-      setItems(await r.json());
+      const data = await r.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to load experiences:", err);
+      setItems([]);
     } finally { setLoading(false); }
   };
 
