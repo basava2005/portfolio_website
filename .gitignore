@@ -10,8 +10,14 @@ out-tsc
 
 # dependencies
 node_modules
+.pnpm-store
+
+# env files
+.env
+.env.*
 
 # IDEs and editors
+.canvas/
 /.idea
 .project
 .classpath
