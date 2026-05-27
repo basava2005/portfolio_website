@@ -9,7 +9,7 @@
 
 [[redirects]]
   from = "/api/*"
-  to = "https://your-api-server.onrender.com/api/:splat"
+  to = "https://portfolio-website-b4zh.onrender.com"
   status = 200
   force = true
 
