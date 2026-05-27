@@ -20,7 +20,11 @@ export default function AdminContacts() {
     setLoading(true);
     try {
       const res = await fetch("/api/admin/contacts", { credentials: "include" });
-      setContacts(await res.json());
+      const data = await res.json();
+      setContacts(Array.isArray(data) ? data : []);
+    } catch (err) {
+      console.error("Failed to load contacts:", err);
+      setContacts([]);
     } finally {
       setLoading(false);
     }
