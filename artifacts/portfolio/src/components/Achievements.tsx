@@ -1,16 +1,36 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Trophy, Globe } from "lucide-react";
+import { Trophy, Globe, Star, Award, Zap, Heart, type LucideIcon } from "lucide-react";
 import SectionHeader from "./SectionHeader";
 
-const items = [
+interface AchievementItem {
+  id: number;
+  title: string;
+  tag?: string | null;
+  blurb?: string | null;
+  icon?: string | null;
+}
+
+const iconMap: Record<string, LucideIcon> = {
+  trophy: Trophy,
+  globe: Globe,
+  star: Star,
+  award: Award,
+  zap: Zap,
+  heart: Heart,
+};
+
+const defaultAchievements: AchievementItem[] = [
   {
-    icon: Trophy,
+    id: -1,
+    icon: "trophy",
     title: "Hackathon Winner",
     blurb: "Awarded for building an AI-powered productivity tool in under 24 hours, beating teams from across regional engineering colleges.",
     tag: "Trophy",
   },
   {
-    icon: Globe,
+    id: -2,
+    icon: "globe",
     title: "Open Source Contributor",
     blurb: "Active contributor to community JavaScript and Python repositories — bug fixes, tooling, and documentation in widely-used libraries.",
     tag: "Community",
@@ -18,6 +38,17 @@ const items = [
 ];
 
 export default function Achievements() {
+  const [items, setItems] = useState<AchievementItem[]>(defaultAchievements);
+
+  useEffect(() => {
+    fetch("/api/portfolio/achievements")
+      .then((r) => r.json())
+      .then((d) => {
+        if (Array.isArray(d) && d.length > 0) setItems(d);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section
       id="achievements"
@@ -34,17 +65,17 @@ export default function Achievements() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 mt-12">
           {items.map((it, i) => {
-            const Icon = it.icon;
+            const Icon = iconMap[it.icon || "trophy"] || Trophy;
             return (
               <motion.div
-                key={it.title}
+                key={it.id}
                 initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.7, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
                 whileHover={{ y: -6, transition: { duration: 0.25 } }}
                 className="border border-ink bg-cream shadow-brutal hover-lift group cursor-default"
-                data-testid={`achievement-${i}`}
+                data-testid={`achievement-${it.id}`}
               >
                 <div className="bg-ink text-cream px-5 py-3 flex items-center justify-between">
                   <span className="font-mono text-[10px] uppercase tracking-[0.3em]">

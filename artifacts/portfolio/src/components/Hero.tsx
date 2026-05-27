@@ -65,7 +65,42 @@ function Counter({ to, suffix = "" }: { to: number; suffix?: string }) {
 }
 
 /* ─── Hero ───────────────────────────────────────────────────────────── */
+interface HeroSettings {
+  name: string;
+  tagline: string;
+  bio: string;
+  available: boolean;
+  availableText: string;
+  location: string;
+  stat1Label: string; stat1Value: string;
+  stat2Label: string; stat2Value: string;
+  stat3Label: string; stat3Value: string;
+}
+
+const defaults: HeroSettings = {
+  name: "Basavaraj H A",
+  tagline: "Full Stack Developer & AI Enthusiast",
+  bio: "Full Stack Developer & AI Enthusiast crafting production-grade web apps, AUTOSAR tooling, and LLM-powered systems. Currently interning at Luxoft.",
+  available: true,
+  availableText: "Available for Opportunities · Intern @ Luxoft",
+  location: "Karnataka, India",
+  stat1Label: "Projects shipped", stat1Value: "10+",
+  stat2Label: "Core skills", stat2Value: "17",
+  stat3Label: "Curiosity", stat3Value: "∞",
+};
+
 export default function Hero() {
+  const [data, setData] = useState<HeroSettings>(defaults);
+
+  useEffect(() => {
+    fetch("/api/portfolio/settings/hero")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d) setData({ ...defaults, ...d });
+      })
+      .catch(() => {});
+  }, []);
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const smoothX = useSpring(mouseX, { stiffness: 60, damping: 20 });
@@ -78,6 +113,10 @@ export default function Hero() {
     mouseX.set(((e.clientX - rect.left) / rect.width - 0.5) * 2);
     mouseY.set(((e.clientY - rect.top) / rect.height - 0.5) * 2);
   };
+
+  const nameParts = data.name.split(" ");
+  const firstName = nameParts[0] || "Basavaraj";
+  const lastName = nameParts.slice(1).join(" ") || "H A";
 
   return (
     <section
@@ -111,13 +150,15 @@ export default function Hero() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-8 flex items-center gap-3"
         >
-          <motion.span
-            className="h-2 w-2 bg-orange rounded-full"
-            animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          />
+          {data.available && (
+            <motion.span
+              className="h-2 w-2 bg-orange rounded-full"
+              animate={{ scale: [1, 1.5, 1], opacity: [1, 0.5, 1] }}
+              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+            />
+          )}
           <span className="font-mono text-[11px] uppercase tracking-[0.3em] text-ink/70">
-            Available for Opportunities · Intern @ Luxoft
+            {data.availableText}
           </span>
         </motion.div>
 
@@ -128,14 +169,14 @@ export default function Hero() {
         >
           <div className="overflow-hidden">
             <SplitText
-              text="Basavaraj"
+              text={firstName}
               className="block text-[19vw] sm:text-[14vw] lg:text-[11rem] xl:text-[13rem]"
               delay={0.4}
             />
           </div>
           <div className="overflow-hidden flex items-end gap-4 sm:gap-8 mt-2">
             <SplitText
-              text="H A"
+              text={lastName}
               className="block text-[19vw] sm:text-[14vw] lg:text-[11rem] xl:text-[13rem]"
               delay={0.65}
             />
@@ -164,10 +205,10 @@ export default function Hero() {
             data-testid="text-hero-bio"
           >
             <p className="font-serif text-2xl sm:text-3xl leading-[1.15] text-ink">
-              <span className="float-left font-display text-7xl leading-[0.8] mr-3 mt-1 text-orange">F</span>
-              ull Stack Developer & AI Enthusiast crafting{" "}
-              <span className="underline-orange">production-grade</span>{" "}
-              web apps, AUTOSAR tooling, and LLM-powered systems. Currently interning at Luxoft.
+              <span className="float-left font-display text-7xl leading-[0.8] mr-3 mt-1 text-orange">
+                {data.bio.charAt(0)}
+              </span>
+              {data.bio.slice(1)}
             </p>
           </motion.div>
 

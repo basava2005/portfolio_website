@@ -151,13 +151,13 @@ function CertCard({ cert, index, onClick }: { cert: Cert; index: number; onClick
 
 export default function Certifications() {
   const [certs, setCerts] = useState<Cert[]>(staticCerts);
-  const [preview, setPreview] = useState<Cert | null>(null);
+  const [activeCert, setActiveCert] = useState<Cert | null>(null);
 
   useEffect(() => {
     fetch("/api/certificates")
       .then((r) => r.json())
-      .then((data: Cert[]) => {
-        if (Array.isArray(data) && data.length > 0) setCerts(data);
+      .then((d) => {
+        if (Array.isArray(d) && d.length > 0) setCerts(d);
       })
       .catch(() => {});
   }, []);
@@ -182,7 +182,7 @@ export default function Certifications() {
               key={c.id}
               cert={c}
               index={i}
-              onClick={() => setPreview(c)}
+              onClick={() => setActiveCert(c)}
             />
           ))}
         </div>
@@ -190,14 +190,14 @@ export default function Certifications() {
 
       {/* Lightbox */}
       <AnimatePresence>
-        {preview && (
+        {activeCert && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-[200] bg-ink/90 flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
-            onClick={() => setPreview(null)}
+            onClick={() => setActiveCert(null)}
             data-testid="cert-preview-modal"
           >
             <motion.div
@@ -213,12 +213,12 @@ export default function Certifications() {
               <div className="bg-ink text-cream px-5 py-3 flex items-center justify-between">
                 <div>
                   <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-orange mb-0.5">
-                    {preview.issuer} · {preview.year}
+                    {activeCert.issuer} · {activeCert.year}
                   </div>
-                  <div className="font-display text-xl uppercase">{preview.name}</div>
+                  <div className="font-display text-xl uppercase">{activeCert.name}</div>
                 </div>
                 <button
-                  onClick={() => setPreview(null)}
+                  onClick={() => setActiveCert(null)}
                   className="text-cream hover:text-orange transition-colors p-1"
                   data-testid="cert-preview-close"
                 >
@@ -227,18 +227,18 @@ export default function Certifications() {
               </div>
 
               <div className="p-6">
-                {preview.fileType?.startsWith("image/") && (
-                  <img src={preview.fileUrl!} alt={preview.name} className="w-full border border-ink" />
+                {activeCert.fileType?.startsWith("image/") && (
+                  <img src={activeCert.fileUrl!} alt={activeCert.name} className="w-full border border-ink" />
                 )}
-                {preview.fileType === "application/pdf" && (
-                  <iframe src={preview.fileUrl!} className="w-full h-[60vh] border border-ink" title={preview.name} />
+                {activeCert.fileType === "application/pdf" && (
+                  <iframe src={activeCert.fileUrl!} className="w-full h-[60vh] border border-ink" title={activeCert.name} />
                 )}
-                {preview.description && (
-                  <p className="mt-4 font-serif text-lg text-ink/80 leading-relaxed">{preview.description}</p>
+                {activeCert.description && (
+                  <p className="mt-4 font-serif text-lg text-ink/80 leading-relaxed">{activeCert.description}</p>
                 )}
-                {preview.fileUrl && (
+                {activeCert.fileUrl && (
                   <a
-                    href={preview.fileUrl}
+                    href={activeCert.fileUrl}
                     target="_blank"
                     rel="noreferrer"
                     className="mt-4 inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-orange hover:underline"

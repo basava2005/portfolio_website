@@ -1,20 +1,28 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
 
-const skills = [
-  "JavaScript", "TypeScript", "React", "Next.js", "Node.js",
-  "Express", "Python", "FastAPI", "PostgreSQL", "MongoDB",
-  "AUTOSAR", "C/C++", "Tailwind CSS", "Three.js", "LangChain",
-  "OpenAI API", "Docker",
-];
+interface AboutSettings {
+  bio1: string;
+  bio2: string;
+  bio3: string;
+  skills: string[];
+  facts: Array<{ k: string; v: string }>;
+}
 
-const facts = [
-  { k: "Role", v: "Full Stack Dev / AI" },
-  { k: "Now", v: "Intern @ Luxoft" },
-  { k: "Base", v: "Karnataka, India" },
-  { k: "Stack", v: "TS · React · Python" },
-  { k: "Status", v: "Open to Offers" },
-];
+const defaults: AboutSettings = {
+  bio1: "I'm a developer who likes the friction of real systems — shipping software that runs in production, talks to APIs, and survives Monday morning. My day-to-day swings between React frontends, Node and Python services, and the more particular world of AUTOSAR tooling.",
+  bio2: "Lately I've been building with LLMs — assistants, retrieval pipelines, and small interfaces that make models feel less like a chatbot and more like a coworker. I care about typography, keyboard ergonomics, and the difference between a thing that works and a thing you actually want to use.",
+  bio3: "Currently interning at Luxoft, sharpening on automotive software, and open to full-time roles where I can pair frontend craft with backend depth.",
+  skills: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "Express", "Python", "FastAPI", "PostgreSQL", "MongoDB", "AUTOSAR", "C/C++", "Tailwind CSS", "Three.js", "LangChain", "OpenAI API", "Docker"],
+  facts: [
+    { k: "Role", v: "Full Stack Dev / AI" },
+    { k: "Now", v: "Intern @ Luxoft" },
+    { k: "Base", v: "Karnataka, India" },
+    { k: "Stack", v: "TS · React · Python" },
+    { k: "Status", v: "Open to Offers" },
+  ],
+};
 
 const containerVariants = {
   hidden: {},
@@ -33,6 +41,17 @@ const factVariants = {
 };
 
 export default function About() {
+  const [data, setData] = useState<AboutSettings>(defaults);
+
+  useEffect(() => {
+    fetch("/api/portfolio/settings/about")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d) setData({ ...defaults, ...d });
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section
       id="about"
@@ -57,24 +76,13 @@ export default function About() {
             className="lg:col-span-7 space-y-6 font-serif text-xl sm:text-2xl leading-relaxed text-ink/85"
           >
             <p data-testid="text-about-bio-1">
-              I'm a developer who likes the friction of real systems —
-              shipping software that runs in production, talks to APIs, and
-              survives Monday morning. My day-to-day swings between{" "}
-              <span className="underline-orange">React frontends</span>, Node
-              and Python services, and the more particular world of{" "}
-              <span className="underline-orange">AUTOSAR tooling</span>.
+              {data.bio1}
             </p>
             <p data-testid="text-about-bio-2">
-              Lately I've been building with LLMs — assistants, retrieval
-              pipelines, and small interfaces that make models feel less like
-              a chatbot and more like a coworker. I care about typography,
-              keyboard ergonomics, and the difference between a thing that
-              works and a thing you actually want to use.
+              {data.bio2}
             </p>
             <p className="font-sans text-base text-ink/60 not-italic">
-              Currently interning at Luxoft, sharpening on automotive software,
-              and open to full-time roles where I can pair frontend craft with
-              backend depth.
+              {data.bio3}
             </p>
           </motion.div>
 
@@ -92,7 +100,7 @@ export default function About() {
                 <span>v.2026</span>
               </div>
               <dl className="divide-y divide-ink/15">
-                {facts.map((f, i) => (
+                {data.facts.map((f, i) => (
                   <motion.div
                     key={f.k}
                     custom={i}
@@ -123,7 +131,7 @@ export default function About() {
           >
             <h3 className="font-display text-2xl uppercase">Toolbox</h3>
             <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60">
-              {skills.length} entries · sorted by use
+              {data.skills.length} entries · sorted by use
             </span>
           </motion.div>
           <motion.div
@@ -133,7 +141,7 @@ export default function About() {
             viewport={{ once: true, margin: "-60px" }}
             className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-0 border-l border-t border-ink"
           >
-            {skills.map((s, i) => (
+            {data.skills.map((s, i) => (
               <motion.div
                 key={s}
                 variants={cellVariants}
