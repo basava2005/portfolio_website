@@ -78,15 +78,15 @@ interface HeroSettings {
 }
 
 const defaults: HeroSettings = {
-  name: "Basavaraj H A",
-  tagline: "Full Stack Developer & AI Enthusiast",
-  bio: "Full Stack Developer & AI Enthusiast crafting production-grade web apps, AUTOSAR tooling, and LLM-powered systems. Currently interning at Luxoft.",
-  available: true,
-  availableText: "Available for Opportunities · Intern @ Luxoft",
-  location: "Karnataka, India",
-  stat1Label: "Projects shipped", stat1Value: "10+",
-  stat2Label: "Core skills", stat2Value: "17",
-  stat3Label: "Curiosity", stat3Value: "∞",
+  name: "Your Name",
+  tagline: "Your Professional Tagline",
+  bio: "Enter your professional bio in the admin panel to display it here.",
+  available: false,
+  availableText: "Update your status in Admin",
+  location: "Your Location",
+  stat1Label: "Projects", stat1Value: "0",
+  stat2Label: "Skills", stat2Value: "0",
+  stat3Label: "Exp", stat3Value: "0",
 };
 
 export default function Hero() {

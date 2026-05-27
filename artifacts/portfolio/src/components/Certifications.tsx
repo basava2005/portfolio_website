@@ -13,12 +13,7 @@ interface Cert {
   fileType?: string | null;
 }
 
-const staticCerts: Cert[] = [
-  { id: -1, name: "Full Stack Web Development", issuer: "Online Bootcamp", year: "2024" },
-  { id: -2, name: "Python for Data Science", issuer: "IBM / Coursera", year: "2023" },
-  { id: -3, name: "AI & Machine Learning Foundations", issuer: "Google", year: "2024" },
-  { id: -4, name: "AUTOSAR Fundamentals", issuer: "Industry Training", year: "2025" },
-];
+const staticCerts: Cert[] = [];
 
 /* Decorative corner SVG */
 function Corner({ flip = false }: { flip?: boolean }) {

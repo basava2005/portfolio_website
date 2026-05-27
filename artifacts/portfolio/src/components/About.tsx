@@ -11,17 +11,11 @@ interface AboutSettings {
 }
 
 const defaults: AboutSettings = {
-  bio1: "I'm a developer who likes the friction of real systems — shipping software that runs in production, talks to APIs, and survives Monday morning. My day-to-day swings between React frontends, Node and Python services, and the more particular world of AUTOSAR tooling.",
-  bio2: "Lately I've been building with LLMs — assistants, retrieval pipelines, and small interfaces that make models feel less like a chatbot and more like a coworker. I care about typography, keyboard ergonomics, and the difference between a thing that works and a thing you actually want to use.",
-  bio3: "Currently interning at Luxoft, sharpening on automotive software, and open to full-time roles where I can pair frontend craft with backend depth.",
-  skills: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "Express", "Python", "FastAPI", "PostgreSQL", "MongoDB", "AUTOSAR", "C/C++", "Tailwind CSS", "Three.js", "LangChain", "OpenAI API", "Docker"],
-  facts: [
-    { k: "Role", v: "Full Stack Dev / AI" },
-    { k: "Now", v: "Intern @ Luxoft" },
-    { k: "Base", v: "Karnataka, India" },
-    { k: "Stack", v: "TS · React · Python" },
-    { k: "Status", v: "Open to Offers" },
-  ],
+  bio1: "Update your bio in the admin panel.",
+  bio2: "",
+  bio3: "",
+  skills: [],
+  facts: [],
 };
 
 const containerVariants = {

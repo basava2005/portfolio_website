@@ -14,15 +14,15 @@ interface HeroSettings {
 }
 
 const defaults: HeroSettings = {
-  name: "Basavaraj H A",
-  tagline: "Full Stack Developer & AI Enthusiast",
-  bio: "Full Stack Developer & AI Enthusiast crafting production-grade web apps, AUTOSAR tooling, and LLM-powered systems. Currently interning at Luxoft.",
-  available: true,
-  availableText: "Available for Opportunities · Intern @ Luxoft",
-  location: "Karnataka, India",
-  stat1Label: "Projects shipped", stat1Value: "10+",
-  stat2Label: "Core skills", stat2Value: "17",
-  stat3Label: "Curiosity", stat3Value: "∞",
+  name: "",
+  tagline: "",
+  bio: "",
+  available: false,
+  availableText: "",
+  location: "",
+  stat1Label: "", stat1Value: "",
+  stat2Label: "", stat2Value: "",
+  stat3Label: "", stat3Value: "",
 };
 
 async function requestUploadUrl() {

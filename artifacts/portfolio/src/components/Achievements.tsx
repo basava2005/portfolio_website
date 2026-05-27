@@ -20,22 +20,7 @@ const iconMap: Record<string, LucideIcon> = {
   heart: Heart,
 };
 
-const defaultAchievements: AchievementItem[] = [
-  {
-    id: -1,
-    icon: "trophy",
-    title: "Hackathon Winner",
-    blurb: "Awarded for building an AI-powered productivity tool in under 24 hours, beating teams from across regional engineering colleges.",
-    tag: "Trophy",
-  },
-  {
-    id: -2,
-    icon: "globe",
-    title: "Open Source Contributor",
-    blurb: "Active contributor to community JavaScript and Python repositories — bug fixes, tooling, and documentation in widely-used libraries.",
-    tag: "Community",
-  },
-];
+const defaultAchievements: AchievementItem[] = [];
 
 export default function Achievements() {
   const [items, setItems] = useState<AchievementItem[]>(defaultAchievements);

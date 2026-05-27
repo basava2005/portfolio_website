@@ -13,24 +13,7 @@ interface ExperienceItem {
   bullets: string[];
 }
 
-const defaultExperience: ExperienceItem[] = [
-  { 
-    id: -1,
-    role: "Software Engineering Intern",
-    company: "Luxoft",
-    companyNote: "A DXC Technology Co.",
-    period: "2024 — Now",
-    location: "Remote · India",
-    type: "Internship",
-    bullets: [
-      "Building and integrating production web applications using modern stacks (React, Node, Python).",
-      "Working on AUTOSAR-based automotive software tooling and embedded workflows.",
-      "Designing internal LLM-powered utilities to accelerate engineer productivity.",
-      "Collaborating with senior engineers across geographies on architecture and code review.",
-      "Owning small features end-to-end — from spec to deploy to follow-up support.",
-    ],
-  },
-];
+const defaultExperience: ExperienceItem[] = [];
 
 const bulletVariants = {
   hidden: {},

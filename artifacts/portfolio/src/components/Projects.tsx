@@ -12,28 +12,7 @@ interface ProjectItem {
   accent: string;
 }
 
-const defaultProjects: ProjectItem[] = [
-  {
-    id: -1, title: "AI Resume Analyzer", type: "Feature",
-    blurb: "Upload a resume, get back structured feedback, an ATS score, and rewrite suggestions. Built with Next.js, FastAPI, and an OpenAI-backed scoring pipeline.",
-    tags: ["Next.js", "FastAPI", "OpenAI", "PostgreSQL"], accent: "orange",
-  },
-  {
-    id: -2, title: "AUTOSAR Config Tool", type: "Industry",
-    blurb: "Internal tool that parses ARXML, validates configuration against the standard, and generates compliant code stubs for embedded ECU teams.",
-    tags: ["Python", "Qt", "AUTOSAR", "C"], accent: "navy",
-  },
-  {
-    id: -3, title: "Real-Time Chat", type: "Side Project",
-    blurb: "End-to-end encrypted chat with rooms, presence, typing indicators, and image sharing. Powered by Socket.io and a Mongo-backed message store.",
-    tags: ["React", "Node", "Socket.io", "MongoDB"], accent: "amber",
-  },
-  {
-    id: -4, title: "LLM Knowledge Assistant", type: "Experiment",
-    blurb: "RAG-based assistant that ingests PDFs and docs, then answers questions with citations. Built on LangChain with a custom retrieval ranker.",
-    tags: ["LangChain", "Python", "Vector DB"], accent: "orange",
-  },
-];
+const defaultProjects: ProjectItem[] = [];
 
 const accentMap: Record<string, string> = { orange: "shadow-brutal-orange", navy: "shadow-brutal-navy", amber: "shadow-brutal" };
 const dotMap: Record<string, string> = { orange: "bg-orange", navy: "bg-navy", amber: "bg-amber" };

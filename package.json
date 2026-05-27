@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "concurrently \"pnpm run dev:api\" \"pnpm run dev:portfolio\"",
-    "dev:api": "dotenv -e .env -- cross-env-shell \"PORT=%API_PORT% pnpm --filter @workspace/api-server run dev\"",
-    "dev:portfolio": "dotenv -e .env -- pnpm --filter @workspace/portfolio run dev",
+    "dev": "concurrently -k \"pnpm run dev:api\" \"pnpm run dev:portfolio\"",
+    "dev:api": "dotenv -e .env -- pnpm --filter @workspace/api-server run start",
+    "dev:portfolio": "dotenv -e .env -- cross-env PORT=5173 pnpm --filter @workspace/portfolio run dev",
     "start": "pnpm run start:api",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "build:api": "pnpm --filter @workspace/api-server run build",
