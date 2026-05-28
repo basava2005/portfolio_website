@@ -12,7 +12,7 @@ import {
   achievementsTable,
   insertAchievementSchema,
 } from "@workspace/db/schema";
-import { desc, eq, asc } from "drizzle-orm";
+import { desc, eq, asc, gte, sql } from "drizzle-orm";
 import { z } from "zod";
 import { ObjectStorageService } from "../lib/objectStorage.js";
 
@@ -188,18 +188,45 @@ router.post("/admin/projects", isAdmin, async (req, res) => {
   const parsed = projBodySchema.safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: "Invalid body" }); return; }
   try {
+    const { sortOrder } = parsed.data;
+    // Shift existing projects forward if needed
+    if (sortOrder !== undefined) {
+      await db.update(projectsTable)
+        .set({ sortOrder: sql`${projectsTable.sortOrder} + 1` })
+        .where(gte(projectsTable.sortOrder, sortOrder));
+    }
     const [row] = await db.insert(projectsTable).values(insertProjectSchema.parse(parsed.data)).returning();
     res.json(row);
-  } catch (err) { res.status(500).json({ error: "Failed" }); }
+  } catch (err) { req.log.error({ err }); res.status(500).json({ error: "Failed" }); }
 });
 
 router.patch("/admin/projects/:id", isAdmin, async (req, res) => {
   const parsed = projBodySchema.partial().safeParse(req.body);
   if (!parsed.success) { res.status(400).json({ error: "Invalid body" }); return; }
   try {
-    const [row] = await db.update(projectsTable).set(parsed.data).where(eq(projectsTable.id, parseInt(req.params.id))).returning();
+    const id = parseInt(req.params.id);
+    const { sortOrder } = parsed.data;
+
+    if (sortOrder !== undefined) {
+      const [current] = await db.select().from(projectsTable).where(eq(projectsTable.id, id)).limit(1);
+      if (current && current.sortOrder !== sortOrder) {
+        if (sortOrder < current.sortOrder!) {
+          // Moving up: shift projects between new and old position down
+          await db.update(projectsTable)
+            .set({ sortOrder: sql`${projectsTable.sortOrder} + 1` })
+            .where(sql`${projectsTable.sortOrder} >= ${sortOrder} AND ${projectsTable.sortOrder} < ${current.sortOrder}`);
+        } else {
+          // Moving down: shift projects between old and new position up
+          await db.update(projectsTable)
+            .set({ sortOrder: sql`${projectsTable.sortOrder} - 1` })
+            .where(sql`${projectsTable.sortOrder} > ${current.sortOrder} AND ${projectsTable.sortOrder} <= ${sortOrder}`);
+        }
+      }
+    }
+
+    const [row] = await db.update(projectsTable).set(parsed.data).where(eq(projectsTable.id, id)).returning();
     res.json(row);
-  } catch (err) { res.status(500).json({ error: "Failed" }); }
+  } catch (err) { req.log.error({ err }); res.status(500).json({ error: "Failed" }); }
 });
 
 router.delete("/admin/projects/:id", isAdmin, async (req, res) => {
