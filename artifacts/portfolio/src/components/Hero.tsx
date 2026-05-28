@@ -78,12 +78,12 @@ interface HeroSettings {
 }
 
 const defaults: HeroSettings = {
-  name: "Your Name",
-  tagline: "Your Professional Tagline",
+  name: "Basavaraj H A",
+  tagline: "Full Stack Developer & AI Enthusiast",
   bio: "Enter your professional bio in the admin panel to display it here.",
   available: false,
   availableText: "Update your status in Admin",
-  location: "Your Location",
+  location: "Karnataka, India",
   stat1Label: "Projects", stat1Value: "0",
   stat2Label: "Skills", stat2Value: "0",
   stat3Label: "Exp", stat3Value: "0",
