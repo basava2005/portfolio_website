@@ -38,13 +38,15 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "dev-secret-change-me",
-    resave: false,
+    resave: true,
     saveUninitialized: false,
+    proxy: process.env.NODE_ENV === "production",
+    rolling: true,
     cookie: {
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   }),
 );

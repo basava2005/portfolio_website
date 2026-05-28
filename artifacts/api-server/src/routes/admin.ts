@@ -21,6 +21,11 @@ const storage = new ObjectStorageService();
 
 function isAdmin(req: any, res: any, next: any) {
   if ((req.session as any)?.adminAuthed) return next();
+  req.log.warn({ 
+    sessionID: req.sessionID, 
+    hasSession: !!req.session, 
+    authed: (req.session as any)?.adminAuthed 
+  }, "Unauthorized access attempt");
   res.status(401).json({ error: "Unauthorized" });
 }
 
