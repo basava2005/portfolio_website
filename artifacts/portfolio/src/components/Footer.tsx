@@ -14,10 +14,8 @@ export default function Footer() {
             <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60 mb-4">
               Colophon
             </div>
-            <div className="font-display text-5xl sm:text-7xl lg:text-8xl uppercase leading-[0.9]">
-              Set in <span className="text-orange">Anton</span>,
-              <br />
-              Instrument Serif &amp; JetBrains Mono.
+            <div className="font-serif italic text-4xl sm:text-5xl lg:text-6xl leading-[1.1] max-w-4xl">
+              "Design is not just what it looks like and feels like. <span className="text-orange">Design is how it works.</span>"
             </div>
           </div>
           <div className="lg:col-span-4 flex justify-start lg:justify-end">
@@ -37,7 +35,7 @@ export default function Footer() {
 
       <div className="px-4 sm:px-8 lg:px-12 py-6 flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60">
         <div data-testid="text-footer-copy">
-          © 2026 Basavaraj H A · All rights reserved
+          © 2026 · All rights reserved
         </div>
         <div className="flex items-center gap-4">
           <span>Made by hand</span>

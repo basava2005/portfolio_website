@@ -8,6 +8,8 @@ interface HeroSettings {
   available: boolean;
   availableText: string;
   location: string;
+  linkedin?: string;
+  github?: string;
   stat1Label: string; stat1Value: string;
   stat2Label: string; stat2Value: string;
   stat3Label: string; stat3Value: string;
@@ -20,6 +22,8 @@ const defaults: HeroSettings = {
   available: false,
   availableText: "",
   location: "",
+  linkedin: "",
+  github: "",
   stat1Label: "", stat1Value: "",
   stat2Label: "", stat2Value: "",
   stat3Label: "", stat3Value: "",
@@ -215,6 +219,31 @@ export default function AdminHero() {
             </span>
           </div>
         </label>
+
+        <div className="grid grid-cols-12 border-b border-ink">
+          <label className="col-span-6 border-r border-ink flex flex-col">
+            <span className="px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 bg-ink/5 border-b border-ink">LinkedIn URL</span>
+            <input
+              className="px-4 py-3 bg-transparent outline-none font-display text-lg uppercase placeholder:text-ink/25"
+              value={form.linkedin}
+              onChange={(e) => set("linkedin", e.target.value)}
+              placeholder="https://linkedin.com/in/…"
+            />
+          </label>
+          <label className="col-span-6 flex flex-col">
+            <span className="px-4 py-2 font-mono text-[10px] uppercase tracking-[0.3em] text-ink/60 bg-ink/5 border-b border-ink">GitHub URL</span>
+            <input
+              className="px-4 py-3 bg-transparent outline-none font-display text-lg uppercase placeholder:text-ink/25"
+              value={form.github}
+              onChange={(e) => set("github", e.target.value)}
+              placeholder="https://github.com/…"
+            />
+          </label>
+        </div>
+
+        <div className="col-span-12 px-4 py-2 bg-ink/5 border-b border-ink">
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-orange">Stats / Counters</div>
+        </div>
 
         <div className="grid grid-cols-3 divide-x divide-ink border-b border-ink">
           {(["1","2","3"] as const).map((n) => (

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, Linkedin, Github, ArrowUpRight, Send, Check } from "lucide-react";
 
@@ -8,6 +8,16 @@ export default function Contact() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [links, setLinks] = useState({ linkedin: "", github: "" });
+
+  useEffect(() => {
+    fetch("/api/portfolio/settings/hero")
+      .then((r) => r.json())
+      .then((d) => {
+        if (d) setLinks({ linkedin: d.linkedin || "", github: d.github || "" });
+      })
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -162,17 +172,21 @@ export default function Contact() {
                 </div>
                 <Phone size={18} className="text-cream/60 group-hover:text-orange" />
               </a>
-              <a href="https://www.linkedin.com/in/basavaraj-h-a" target="_blank" rel="noreferrer" className="group flex items-center justify-between py-5 border-b border-cream/15 hover:text-orange transition-colors" data-testid="link-contact-linkedin">
+              <a href={links.linkedin || "https://www.linkedin.com/in/basavaraj-h-a"} target="_blank" rel="noreferrer" className="group flex items-center justify-between py-5 border-b border-cream/15 hover:text-orange transition-colors" data-testid="link-contact-linkedin">
                 <div>
                   <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60 mb-1">LinkedIn</div>
-                  <div className="font-display text-xl uppercase">/in/basavaraj-h-a</div>
+                  <div className="font-display text-xl uppercase">
+                    {links.linkedin ? `/${links.linkedin.split("/in/")[1]?.replace(/\/$/, "") || "profile"}` : "/in/basavaraj-h-a"}
+                  </div>
                 </div>
                 <Linkedin size={18} className="text-cream/60 group-hover:text-orange" />
               </a>
-              <a href="https://github.com/basavarajha05" target="_blank" rel="noreferrer" className="group flex items-center justify-between py-5 hover:text-orange transition-colors" data-testid="link-contact-github">
+              <a href={links.github || "https://github.com/basavarajha05"} target="_blank" rel="noreferrer" className="group flex items-center justify-between py-5 hover:text-orange transition-colors" data-testid="link-contact-github">
                 <div>
                   <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/60 mb-1">GitHub</div>
-                  <div className="font-display text-xl uppercase">/basavarajha05</div>
+                  <div className="font-display text-xl uppercase">
+                    {links.github ? `/${links.github.split("github.com/")[1]?.replace(/\/$/, "") || "profile"}` : "/basavarajha05"}
+                  </div>
                 </div>
                 <Github size={18} className="text-cream/60 group-hover:text-orange" />
               </a>
