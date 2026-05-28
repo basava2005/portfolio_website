@@ -10,6 +10,7 @@ interface ProjectItem {
   blurb?: string | null;
   tags: string[];
   accent: string;
+  link?: string | null;
 }
 
 const defaultProjects: ProjectItem[] = [];
@@ -80,30 +81,36 @@ export default function Projects() {
                 <span key={t} className="font-mono text-[10px] uppercase tracking-[0.2em] border border-cream/40 px-2 py-1">{t}</span>
               ))}
             </div>
-            <motion.button
+            <motion.a
+              href={feature.link || undefined}
+              target="_blank"
+              rel="noreferrer"
               whileHover={{ scale: 1.03, x: 4 }}
               whileTap={{ scale: 0.97 }}
               transition={{ duration: 0.2 }}
-              className="group inline-flex items-center justify-between bg-orange text-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] w-full sm:w-auto self-start"
+              className="group inline-flex items-center justify-between bg-orange text-ink px-5 py-3 font-mono text-xs uppercase tracking-[0.3em] w-full sm:w-auto self-start no-underline cursor-pointer"
               data-testid="button-project-feature"
             >
               <span>Read the case</span>
               <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform ml-3" />
-            </motion.button>
+            </motion.a>
           </div>
         </motion.article>
 
         {/* Grid projects */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-l border-t border-cream/30">
           {rest.map((p, i) => (
-            <motion.article
+            <motion.a
               key={p.id}
+              href={p.link || undefined}
+              target="_blank"
+              rel="noreferrer"
               initial={{ opacity: 0, y: 40 + i * 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.65, delay: i * 0.12, ease: [0.22, 1, 0.36, 1] }}
               whileHover={{ y: -4 }}
-              className="border-r border-b border-cream/30 p-6 sm:p-8 group hover:bg-cream hover:text-ink transition-colors cursor-pointer"
+              className="border-r border-b border-cream/30 p-6 sm:p-8 group hover:bg-cream hover:text-ink transition-colors cursor-pointer block no-underline"
               data-testid={`project-${p.id}`}
             >
               <div className="flex items-center justify-between mb-4">
@@ -131,7 +138,7 @@ export default function Projects() {
                 whileHover={{ scaleX: 1 }}
                 transition={{ duration: 0.35 }}
               />
-            </motion.article>
+            </motion.a>
           ))}
         </div>
 
