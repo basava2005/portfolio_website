@@ -25,19 +25,13 @@ const defaults: HeroSettings = {
   stat3Label: "", stat3Value: "",
 };
 
-async function requestUploadUrl() {
-  const res = await fetch("/api/admin/storage/request-url", { method: "POST", credentials: "include" });
-  if (!res.ok) throw new Error("Failed to get upload URL");
-  return res.json() as Promise<{ uploadURL: string; objectPath: string }>;
-}
-
-async function uploadToStorage(file: File, uploadURL: string) {
-  const res = await fetch(uploadURL, { method: "PUT", headers: { "Content-Type": file.type }, body: file });
-  if (!res.ok) throw new Error("Upload failed");
-}
-
-function getPublicUrl(objectPath: string) {
-  return `/api/storage/object/${objectPath}`;
+async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
+  });
 }
 
 export default function AdminHero() {
@@ -75,23 +69,20 @@ export default function AdminHero() {
   const handlePhotoUpload = async (file: File) => {
     if (!file.type.startsWith("image/")) { setUploadMsg("Only image files are supported."); return; }
     setUploading(true);
-    setUploadMsg("Getting upload URL…");
+    setUploadMsg("Processing…");
     try {
-      const { uploadURL, objectPath } = await requestUploadUrl();
-      setUploadMsg("Uploading…");
-      await uploadToStorage(file, uploadURL);
-      const publicUrl = getPublicUrl(objectPath);
+      const base64 = await fileToBase64(file);
       setUploadMsg("Saving…");
       await fetch("/api/admin/settings/profile_photo", {
         method: "PUT", credentials: "include",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ value: publicUrl }),
+        body: JSON.stringify({ value: base64 }),
       });
-      setPhotoUrl(publicUrl);
+      setPhotoUrl(base64);
       setUploadMsg("Photo saved!");
       setTimeout(() => setUploadMsg(""), 2500);
     } catch (err) {
-      setUploadMsg("Upload failed. Try again.");
+      setUploadMsg("Save failed. Try again.");
     } finally { setUploading(false); }
   };
 

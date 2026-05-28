@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 const items = [
-  "Full Stack Developer", "AI Enthusiast", "AUTOSAR Engineer",
+  "Full Stack Developer", "AI Enthusiast",
   "LLM Integrations", "Open to Work", "Karnataka, India",
   "Available 2026", "React · Node · Python",
 ];

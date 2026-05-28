@@ -13,22 +13,13 @@ interface Cert {
 
 const emptyForm = { name: "", issuer: "", description: "", year: "", fileUrl: "", fileType: "" };
 
-async function requestUploadUrl(): Promise<{ uploadURL: string; objectPath: string }> {
-  const res = await fetch("/api/admin/storage/request-url", {
-    method: "POST",
-    credentials: "include",
+async function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = (error) => reject(error);
   });
-  if (!res.ok) throw new Error("Failed to get upload URL");
-  return res.json();
-}
-
-async function uploadToGcs(file: File, uploadURL: string): Promise<void> {
-  const res = await fetch(uploadURL, {
-    method: "PUT",
-    headers: { "Content-Type": file.type },
-    body: file,
-  });
-  if (!res.ok) throw new Error("Upload failed");
 }
 
 export default function AdminCertificates() {
@@ -60,17 +51,14 @@ export default function AdminCertificates() {
 
   const handleFile = async (file: File) => {
     setUploading(true);
-    setUploadProgress("Getting upload URL…");
+    setUploadProgress("Processing file…");
     try {
-      const { uploadURL, objectPath } = await requestUploadUrl();
-      setUploadProgress("Uploading file…");
-      await uploadToGcs(file, uploadURL);
-      const fileUrl = `/api/storage/objects${objectPath}`;
-      setForm((f) => ({ ...f, fileUrl, fileType: file.type }));
-      setUploadProgress("Uploaded!");
+      const base64 = await fileToBase64(file);
+      setForm((f) => ({ ...f, fileUrl: base64, fileType: file.type }));
+      setUploadProgress("Done!");
       setTimeout(() => setUploadProgress(""), 2000);
     } catch (err) {
-      setUploadProgress("Upload failed");
+      setUploadProgress("Failed to process file");
       setTimeout(() => setUploadProgress(""), 3000);
     } finally {
       setUploading(false);
