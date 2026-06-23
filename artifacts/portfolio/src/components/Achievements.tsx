@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Trophy, Globe, Star, Award, Zap, Heart, type LucideIcon } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { fetchWithRetry } from "../lib/fetchWithRetry";
 
 interface AchievementItem {
   id: number;
@@ -26,7 +27,7 @@ export default function Achievements() {
   const [items, setItems] = useState<AchievementItem[]>(defaultAchievements);
 
   useEffect(() => {
-    fetch("/api/portfolio/achievements")
+    fetchWithRetry("/api/portfolio/achievements")
       .then((r) => r.json())
       .then((d) => {
         if (Array.isArray(d) && d.length > 0) setItems(d);

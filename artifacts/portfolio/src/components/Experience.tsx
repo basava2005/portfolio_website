@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
+import { fetchWithRetry } from "../lib/fetchWithRetry";
 
 interface ExperienceItem {
   id: number;
@@ -28,7 +29,7 @@ export default function Experience() {
   const [items, setItems] = useState<ExperienceItem[]>(defaultExperience);
 
   useEffect(() => {
-    fetch("/api/portfolio/experiences")
+    fetchWithRetry("/api/portfolio/experiences")
       .then((r) => r.json())
       .then((d) => {
         if (Array.isArray(d) && d.length > 0) setItems(d);

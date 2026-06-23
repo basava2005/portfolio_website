@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import SectionHeader from "./SectionHeader";
+import { fetchWithRetry } from "../lib/fetchWithRetry";
 
 interface AboutSettings {
   bio1: string;
@@ -38,7 +39,7 @@ export default function About() {
   const [data, setData] = useState<AboutSettings>(defaults);
 
   useEffect(() => {
-    fetch("/api/portfolio/settings/about")
+    fetchWithRetry("/api/portfolio/settings/about")
       .then((r) => r.json())
       .then((d) => {
         if (d) setData({ ...defaults, ...d });

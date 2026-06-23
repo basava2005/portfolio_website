@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, FileText, ExternalLink, Award } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { fetchWithRetry } from "../lib/fetchWithRetry";
 
 interface Cert {
   id: number;
@@ -149,7 +150,7 @@ export default function Certifications() {
   const [activeCert, setActiveCert] = useState<Cert | null>(null);
 
   useEffect(() => {
-    fetch("/api/certificates")
+    fetchWithRetry("/api/certificates")
       .then((r) => r.json())
       .then((d) => {
         if (Array.isArray(d) && d.length > 0) setCerts(d);

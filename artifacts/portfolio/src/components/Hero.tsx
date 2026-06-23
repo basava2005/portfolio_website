@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue, useTransform, useSpring, animate } from "framer-motion";
 import { Link } from "react-scroll";
 import { ArrowDown, ArrowUpRight } from "lucide-react";
+import { fetchWithRetry } from "../lib/fetchWithRetry";
 
 /* ─── Letter split ──────────────────────────────────────────────────── */
 function SplitText({ text, className, delay = 0 }: { text: string; className?: string; delay?: number }) {
@@ -93,12 +94,12 @@ export default function Hero() {
   const [data, setData] = useState<HeroSettings>(defaults);
 
   useEffect(() => {
-    fetch("/api/portfolio/settings/hero")
+    fetchWithRetry("/api/portfolio/settings/hero")
       .then((r) => r.json())
       .then((d) => {
         if (d) setData({ ...defaults, ...d });
       })
-      .catch(() => {});
+      .catch(() => {}); // Fall back to defaults
   }, []);
 
   const mouseX = useMotionValue(0);

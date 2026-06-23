@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import SectionHeader from "./SectionHeader";
+import { fetchWithRetry } from "../lib/fetchWithRetry";
 
 interface ProjectItem {
   id: number;
@@ -23,7 +24,7 @@ export default function Projects() {
   const [items, setItems] = useState<ProjectItem[]>(defaultProjects);
 
   useEffect(() => {
-    fetch("/api/portfolio/projects")
+    fetchWithRetry("/api/portfolio/projects")
       .then((r) => r.json())
       .then((d) => {
         if (Array.isArray(d) && d.length > 0) setItems(d);
