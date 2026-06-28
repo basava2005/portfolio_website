@@ -12,6 +12,14 @@ if (!process.env.DATABASE_URL) {
 
 // Parse connection string and add Neon-specific options for cold start handling
 const dbUrl = new URL(process.env.DATABASE_URL);
+
+// If using Neon's connection pooler, convert to direct connection.
+// Direct connections wake up Neon compute instances natively and support
+// channel_binding=require without PgBouncer limitations.
+if (dbUrl.hostname.includes("-pooler.")) {
+  dbUrl.hostname = dbUrl.hostname.replace("-pooler.", ".");
+}
+
 dbUrl.searchParams.set("connect_timeout", "30");
 dbUrl.searchParams.set("application_name", "portfolio-builder");
 
