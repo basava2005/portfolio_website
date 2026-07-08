@@ -4,6 +4,21 @@ import * as schema from "./schema";
 
 const { Pool } = pg;
 
+import { fileURLToPath } from "url";
+import path from "path";
+
+// Load environment variables from root .env if not already set
+if (!process.env.DATABASE_URL) {
+  try {
+    const dirname = typeof __dirname !== "undefined"
+      ? __dirname
+      : path.dirname(fileURLToPath(import.meta.url));
+    process.loadEnvFile(path.resolve(dirname, "../../.env"));
+  } catch (err) {
+    // Ignore if .env file is not found
+  }
+}
+
 if (!process.env.DATABASE_URL) {
   throw new Error(
     "DATABASE_URL must be set. Did you forget to provision a database?",
